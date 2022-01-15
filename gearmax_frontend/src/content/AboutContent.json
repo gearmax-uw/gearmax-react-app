@@ -1,0 +1,16 @@
+{
+  "title": "GearMax provides",
+  "text": "The solution to provide users with satisfying used cars by well-defined filters and the option for users to post any information about their private cars for sale.",
+  "section": [
+    {
+      "title": "Why GearMax?",
+      "content": "GearMax improve user experience, increase the usability of the used car platform and help realize societal benefit",
+      "icon": "notes.svg"
+    },
+    {
+      "title": "Why develop GearMax?",
+      "content": "Our team will benefit from learning to build software from scratch and exploring some advanced technology such as elasticsearch and machine learning.",
+      "icon": "notes.svg"
+    }
+  ]
+}
