@@ -1,10 +1,10 @@
 # gearmax-react-app
 
 ## Preparation
-You will need to have Node JS installed on your pc.
+You will need to have Node installed on your pc.
 
 ## Install
-
+install npm modules:
 npm install
 
 ## Usage 

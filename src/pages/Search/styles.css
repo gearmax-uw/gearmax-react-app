@@ -1,0 +1,14 @@
+/* @media print {
+    @page {
+      margin: 0.7cm 0.85cm;
+    }
+    @page :first {
+      margin-top: 5cm;
+    }
+    @page :left {
+      margin-right: 2.5cm;
+    }
+    @page :right {
+      margin-left: 2.5cm;
+    }
+  } */

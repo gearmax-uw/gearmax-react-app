@@ -1,24 +1,14 @@
 import { lazy } from "react";
-import IntroContent from "../../content/IntroContent.json";
-import AboutContent from "../../content/AboutContent.json";
-const Container = lazy(() => import("../../common/Container"));
-const ScrollToTop = lazy(() => import("../../common/ScrollToTop"));
-const ContentBlock = lazy(() => import("../../components/ContentBlock"));
+// import "./styles.css";;
+const Filter = lazy(() => import("../../components/Filter"));
+
 
 const Search = () => {
   return (
-    <Container>
-      <ScrollToTop />
+<Filter>
 
-      <ContentBlock
-        type="left"
-        title="Form"
-        content="TBD"
-        // section={AboutContent.section}
-        icon="notes.svg"
-        id="about"
-      />
-    </Container>
+</Filter>
+
   );
 };
 
