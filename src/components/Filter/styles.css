@@ -18,9 +18,10 @@ select,
 input {
   display: block;
   box-sizing: border-box;
+  border: 1px solid #cccccc;
   width: 100%;
   border-radius: 4px;
-  border: 1px solid white;
+  /* border: 1px solid rgba(255, 255, 255, 0.735); */
   padding: 10px 15px;
   margin-bottom: 15px;
   font-size: 14px;
