@@ -1,7 +1,9 @@
 import { useForm, Controller } from "react-hook-form";
 import "./styles.css";
+import { SubmitHandler } from "react-hook-form";
+
 // import { lazy } from "react";
-// import ReactDOM from "react-dom";
+import ReactDOM from "react-dom";
 // import { useForm } from "react-hook-form";
 // import { Checkbox, Input } from "@material-ui/core";
 // import { useState } from "react";
@@ -10,27 +12,41 @@ import "./styles.css";
 // import { Input as AntdInput } from "antd";
 // import {Button,MenuItem, TextField, Select } from '@material-ui/core';
 
-const Filter = (props:any) => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors }
-  } = useForm({
-    defaultValues: {
-      example: "",
-      exampleRequired: ""
-    }
-  });
+// interface IFormInput {
+//   price: String;
+//   // gender: GenderEnum;
+// }
+
+const Filter = props => {
+// export default function Filter() {
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   watch,
+  //   formState: { errors }
+  // } = useForm({
+  //   defaultValues: {
+  //     example: "",
+  //     exampleRequired: ""
+  //   }
+    // const { register, handleSubmit } = useForm<IFormInput>();
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    // const onSubmit = (data: IFormInput) => console.log(data);
+    const onSubmit = data => console.log(data);
+  // console.log(errors);
+  
+    
+  // });
     return (
-        <form
-        onSubmit={handleSubmit((data) => {
-          alert(JSON.stringify(data));
-        })}
-        >
+        // <form
+        // onSubmit={handleSubmit((data) => {
+        //   alert(JSON.stringify(data));
+        // })}
+        // >
+        <form onSubmit={handleSubmit(onSubmit)}>
         <label>Price</label>
-        {/* <Select value="" onChange={(e) => setValue('muiSelect', e.target.value as number[])}> */}
-        <select>
+        {/* <select value="" onChange={(e) => setValue('muiSelect', e.target.value as number[])}> */}
+        <select {...register("price")}>
           <option value="">Select...</option>
           <option value="A">10000-50000</option>
           <option value="B">50000-100000</option>
@@ -38,7 +54,7 @@ const Filter = (props:any) => {
         </select>
         <label>Car Make</label>
         {/* <Select value="" onChange={(e) => setValue('muiSelect', e.target.value as number[])}> */}
-        <select>
+        <select {...register("make")}>
           <option value="">Select...</option>
           <option value="A">Ford</option>
           <option value="B">BMW</option>
@@ -46,7 +62,7 @@ const Filter = (props:any) => {
         </select>
         <label>Year</label>
         {/* <Select value="" onChange={(e) => setValue('muiSelect', e.target.value as number[])}> */}
-        <select>
+        <select {...register("year")}>
           <option value="">Select...</option>
           <option value="A">2017</option>
           <option value="B">2018</option>
@@ -54,7 +70,7 @@ const Filter = (props:any) => {
         </select>
         <label>Distance</label>
         {/* <Select value="" onChange={(e) => setValue('muiSelect', e.target.value as number[])}> */}
-        <select>
+        <select {...register("distance")}>
           <option value="">Select...</option>
           <option value="A">25 miles</option>
           <option value="B">50 miles</option>
@@ -62,7 +78,7 @@ const Filter = (props:any) => {
         </select>
         <label>Car Type</label>
         {/* <Select value="" onChange={(e) => setValue('muiSelect', e.target.value as number[])}> */}
-        <select>
+        <select {...register("type")}>
           <option value="">Select...</option>
           <option value="A">SUV</option>
           <option value="B">Compact</option>
