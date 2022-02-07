@@ -100,6 +100,7 @@ const Filter = (props) => {
   //     example: "",
   //     exampleRequired: ""
   //   }
+ 
 
     // const { register, handleSubmit } = useForm<IFormInput>();
     // const [options, setOptions] = React.useState(option);
@@ -107,7 +108,30 @@ const Filter = (props) => {
     // const onSubmit = (data: IFormInput) => console.log(data);
     // const [value, setValue] = React.useState([0, 10000]);
 
-    const onSubmit = data => console.log(data);
+    const onSubmit = data => {
+      console.log(data)
+        // axios.post('http://localhost:9000/test',data)
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json",
+          'Accept': 'application/json',
+          "Access-Control-Allow-Origin": "*", },
+          
+          body: JSON.stringify(data)
+        };
+        fetch("http://localhost:9000/test", requestOptions)      
+        .then(response => response.json())      
+        .then(res => console.log(res))
+        .catch(err => {
+          console.error(err);
+        });
+
+
+        // fetch("http://localhost:9000/test")      
+        // .then(res => res.text())      
+        // .then(res => console.log(res))
+    
+    };
     const handleChange_body = (change) => {
       setValue("body", change, {
         shouldDirty: true
