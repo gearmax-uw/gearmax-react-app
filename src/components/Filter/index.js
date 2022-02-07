@@ -1,5 +1,10 @@
 import { useForm, Controller } from "react-hook-form";
 import "./styles.css";
+import React from "react";
+import axios from 'axios';
+import Select from 'react-select'
+import Box from '@mui/material/Box';
+import { Slider } from "@material-ui/core";
 import { SubmitHandler } from "react-hook-form";
 
 // import { lazy } from "react";
@@ -17,7 +22,73 @@ import ReactDOM from "react-dom";
 //   // gender: GenderEnum;
 // }
 
-const Filter = props => {
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    marginBottom: '20px',
+    boxShadow: state.isFocused ? null : null,
+  }),
+
+  valueContainer: (provided, state) => ({
+    ...provided,
+    height: '40px',
+    padding: '0 6px'
+  }),
+
+  input: (provided, state) => ({
+    ...provided,
+  }),
+  indicatorSeparator: state => ({
+    display: 'none',
+  }),
+  indicatorsContainer: (provided, state) => ({
+    ...provided,
+  }),
+
+}
+
+
+
+const bodyoption = [
+  { value: 'suv-crossover', label: 'suv-crossover' },
+  { value: 'coupe', label: 'coupe' },
+  { value: 'pickup-truck', label: 'pickup-truck' },
+  { value: 'sedan', label: 'sedan' },
+  { value: 'hatchback', label: 'hatchback' },
+  { value: 'wagon', label: 'wagon' },
+  { value: 'minivan', label: 'minivan' },
+  { value: 'van', label: 'van' },
+  { value: 'convertible', label: 'convertible' },
+]
+
+const makeoption = [
+  { value: 'chrysler',label: 'chrysler' },
+  { value: 'dodge',label: 'dodge' },
+  { value: 'mercedes-benz',label: 'mercedes-benz' },
+  { value: 'nissan',label: 'nissan' },
+  // { value: 'hatchback', label: 'hatchback' },
+  // { value: 'wagon', label: 'wagon' },
+  // { value: 'minivan', label: 'minivan' },
+  // { value: 'van', label: 'van' },
+  // { value: 'convertible', label: 'convertible' },
+]
+
+const coloroption = [
+  { value: 'blue',label: 'blue' },
+  { value: 'red',label: 'red' },
+  { value: 'black',label: 'black' },
+  { value: 'silver',label: 'silver' },
+  { value: 'white',label: 'white' },
+  { value: 'green',label: 'green' },
+  { value: 'yellow',label: 'yellow' },
+  { value: 'brown',label: 'brown' },
+
+]
+function valuetext(value) {
+  return `${value}°C`;
+}
+
+const Filter = (props) => {
 // export default function Filter() {
   // const {
   //   register,
@@ -29,12 +100,36 @@ const Filter = props => {
   //     example: "",
   //     exampleRequired: ""
   //   }
+
     // const { register, handleSubmit } = useForm<IFormInput>();
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    // const [options, setOptions] = React.useState(option);
+    const { register, control, setValue, handleSubmit, formState: { errors } } = useForm();
     // const onSubmit = (data: IFormInput) => console.log(data);
+    // const [value, setValue] = React.useState([0, 10000]);
+
     const onSubmit = data => console.log(data);
+    const handleChange_body = (change) => {
+      setValue("body", change, {
+        shouldDirty: true
+      });
+    };
+    const handleChange_make = (change) => {
+      setValue("make", change, {
+          shouldDirty: true
+        });
+      };
+    const handleChange_color = (change) => {
+      setValue("color", change, {
+            shouldDirty: true
+          });  
+    };
+
+
+  const handleChange_range = (event, newValue) => {
+    setValue(newValue);
+  };
   // console.log(errors);
-  
+
     
   // });
     return (
@@ -45,45 +140,119 @@ const Filter = props => {
         // >
         <form onSubmit={handleSubmit(onSubmit)}>
         <label>Price</label>
+        <input {...register("price_low")} placeholder="From" />
+        <input {...register("price_high")} placeholder="To" />
         {/* <select value="" onChange={(e) => setValue('muiSelect', e.target.value as number[])}> */}
-        <select {...register("price")}>
+        {/* <select {...register("price")}>
           <option value="">Select...</option>
           <option value="A">10000-50000</option>
           <option value="B">50000-100000</option>
           <option value="B">{'>'}100000</option>
-        </select>
-        <label>Car Make</label>
-        {/* <Select value="" onChange={(e) => setValue('muiSelect', e.target.value as number[])}> */}
-        <select {...register("make")}>
-          <option value="">Select...</option>
-          <option value="A">Ford</option>
-          <option value="B">BMW</option>
-          <option value="B">Kia</option>
-        </select>
+        </select> */}
+      
+
         <label>Year</label>
         {/* <Select value="" onChange={(e) => setValue('muiSelect', e.target.value as number[])}> */}
-        <select {...register("year")}>
-          <option value="">Select...</option>
-          <option value="A">2017</option>
-          <option value="B">2018</option>
-          <option value="B">2019</option>
-        </select>
-        <label>Distance</label>
+        <input {...register("year_low")} placeholder="From" />
+        <input {...register("year_high")} placeholder="To" />
+
+
+        {/* <Box sx={{ width: 300 }}>
+        <Slider
+  // aria-label="Temperature range"
+  defaultValue={5000}
+  getAriaValueText={valuetext}
+  valueLabelDisplay="auto"
+  aria-labelledby="range-slider"
+  step={1000}
+  // marks
+  min={0}
+  max={100000}
+/>
+</Box> */}
+
+        <label> Mileage &#8804;</label>
         {/* <Select value="" onChange={(e) => setValue('muiSelect', e.target.value as number[])}> */}
+        <input {...register("mileage")} placeholder="Less than" />
+
+        <label> Seating &#8804;</label>
+        {/* <Select value="" onChange={(e) => setValue('muiSelect', e.target.value as number[])}> */}
+        <input {...register("seating")} placeholder="Less than" />
+
+        <label>Exterior Color</label>
+        {/* <div id ="s"> */}
+        {/* <Select value="" onChange={(e) => setValue('muiSelect', e.target.value as number[])}> */}
+        <Controller 
+          name="color"
+          control={control}
+          render={() => (
+            <Select
+              options={coloroption}
+              defaultValue={coloroption[1]}
+              onChange={handleChange_color}
+              styles={customStyles}
+            />
+          )}
+        />
+
+        <label>City</label>
+        <input {...register("city")} placeholder="City" />
+        {/* <label>Distance</label>
+       
         <select {...register("distance")}>
           <option value="">Select...</option>
           <option value="A">25 miles</option>
           <option value="B">50 miles</option>
           <option value="B">100 miles</option>
-        </select>
-        <label>Car Type</label>
+        </select> */}
+        <label>Body Type</label>
+        {/* <div id ="s"> */}
         {/* <Select value="" onChange={(e) => setValue('muiSelect', e.target.value as number[])}> */}
-        <select {...register("type")}>
+        <Controller 
+          name="body"
+          control={control}
+          render={() => (
+            <Select
+              options={bodyoption}
+              defaultValue={bodyoption[1]}
+              onChange={handleChange_body}
+              styles={customStyles}
+            />
+          )}
+        />
+        {/* </div> */}
+        <label>Car Make</label>
+   
+        {/* <Select value="" onChange={(e) => setValue('muiSelect', e.target.value as number[])}> */}
+        {/* <select {...register("make")}>
           <option value="">Select...</option>
-          <option value="A">SUV</option>
-          <option value="B">Compact</option>
+          <option value="A">Ford</option>
+          <option value="B">BMW</option>
           <option value="B">Kia</option>
-        </select>
+        </select> */}
+         <Controller
+          name="make"
+          control={control}
+          render={() => (
+            <Select
+              options={makeoption}
+              defaultValue={makeoption[1]}
+              onChange={handleChange_make}
+              styles={customStyles}
+            />
+          )}
+        />
+        {/* <Select  
+        name="controlledSelect"
+        control={control}
+        options={options} 
+        {...register("type")} 
+        onChange={handleChange} >
+        <option value="">Select...</option>
+          <option value="A">25 miles</option>
+          <option value="B">50 miles</option>
+          <option value="B">100 miles</option>
+        </Select> */}
 
         {/* <label>ExampleRequired</label>  */}
         {/* <input
