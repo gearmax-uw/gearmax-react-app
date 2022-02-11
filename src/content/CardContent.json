@@ -1,0 +1,8 @@
+{
+    "brand": "Brand",
+    "price": 5000,
+    "distance": 60000,
+    "owner":"Owner",
+    "phoneNumber":"1234564",
+    "resultUrl":"http://localhost:3000"
+}
