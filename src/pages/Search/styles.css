@@ -12,3 +12,18 @@
       margin-left: 2.5cm;
     }
   } */
+
+  .gridWrapper{
+    display: grid;
+    grid-template-columns: 10px repeat(10, 1fr) 20px;
+  }
+
+  .filterBox{
+    grid-column-start: 1;
+    grid-column-end: 5;
+  }
+
+  .cardPageBox{
+    grid-column-start: 5;
+    grid-column-end: 11;
+  }
