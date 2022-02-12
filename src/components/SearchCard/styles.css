@@ -8,8 +8,8 @@
 
 .pageBox{
     text-align:center;
-    grid-column-start: 2;
-    grid-column-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 6;
     grid-row-start: 5;
 }
 
@@ -23,11 +23,13 @@
 
 .card {
     border-style: solid;
-    border-radius: 6px;
+    border: 1px solid #bdb3b3;
+    /* border-radius: 6px;
     border-color: gray;
-    border-width: 1px;
+    border-width: 1px; */
     background-color:white;
     margin: 3px;
+    margin-bottom: 20px;
     float: left;
 }
 
@@ -36,17 +38,18 @@
 }
 
 .brand {
-  color: dodgerblue;
+  color: #516391;
   text-align: left;
   font:small-caption;
-  font-style: italic;
-  font-size: x-small;
+  /* font-style: italic; */
+  font-size: large;
 }
 
 .price{
   padding: 5px;
   text-align: center;
   font-style: normal;
+  font-size: large;
 }
 
 .owners{
@@ -54,6 +57,7 @@
   border-top-style: solid;
   border-top-width: 1.5px;
   text-align: left;
+  font-size: normal;
 }
 
 .card img{
@@ -70,7 +74,7 @@
 }
 
 
-.card a:link {color:#000000;}     
-.card a:visited {color:rgb(240, 6, 6);} 
-.card a:hover {color:rgb(16, 16, 207);}  
-.card a:active {color:rgb(223, 17, 17);}  
+.card a:link {color:#8f8a8a;}     
+.card a:visited {color:#516391;} 
+.card a:hover {color:rgb(241, 149, 11);}  
+.card a:active {color:#516391;}  
