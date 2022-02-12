@@ -26,4 +26,5 @@
   .cardPageBox{
     grid-column-start: 5;
     grid-column-end: 11;
+    margin: 0.7cm 0.85cm;
   }
