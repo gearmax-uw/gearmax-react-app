@@ -20,6 +20,8 @@ export const NavLink = styled("div")`
   text-align: center;
 `;
 
+
+
 export const CustomNavLink = styled("div")`
   width: 203px;
   display: inline-block;
@@ -89,8 +91,15 @@ export const CustomLinkSmall = styled(Link)`
 `;
 
 export const Label = styled("span")`
-  font-weight: 500;
-  color: #404041;
+  font-weight: 800;
+  font-size: 1.8rem;
+  font-family: "Motiva Sans Light", sans-serif;
+  // font-size: 15px;
+  // line-height: 1rem;
+  padding: 0.5rem 0;
+  // text-transform: uppercase;
+  color: #18216d;
+  // color: #404041;
   text-align: right;
   display: flex;
   justify-content: space-between;
@@ -110,11 +119,34 @@ export const Span = styled("span")`
   &:hover,
   &:active,
   &:focus {
-    color: rgb(255, 130, 92);
+    // color: gray;
     text-underline-position: under;
-    text-decoration: rgb(255, 130, 92) wavy underline;
+    // text-decoration: rgb(255, 130, 92) wavy underline;
+    // background: lightgray;
+    outline-width: 3px;
+  outline-style: dashed;
+  outline-offset: 10px;
+  outline-color: orange;
   }
 `;
+
+export const logoSpan = styled("span")`
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+
+  &:hover,
+  &:active,
+  &:focus {
+    // color: gray;
+    text-underline-position: under;
+    // text-decoration: rgb(255, 130, 92) wavy underline;
+    // background: lightgray;
+    outline-width: 3px;
+  outline-style: dashed;
+  outline-offset: 10px;
+  outline-color: orange;
+  }
+  `;
 
 
 export const CustomButton = styled("button")`
@@ -133,7 +165,7 @@ cursor: pointer;
   &:focus {
 
     text-underline-position: under;
-    text-decoration: white wavy underline;
+    // text-decoration: white wavy underline;
 
   }
 `;
