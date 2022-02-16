@@ -1,21 +1,17 @@
-//import { Card } from "antd";
+import React, { Component } from 'react';
 import { lazy } from "react";
 import "./styles.css";
-import CardContent from "../../content/CardContent.json";
 const Filter = lazy(() => import("../../components/Filter"));
-const CardGrid = lazy(() => import("../../components/SearchCard"));
+const CarCardGrid = lazy(() => import("../../components/CarGrid"))
 
 const Search = () => {
-  const cardNum = 50;
-  const CardList = Array.from({length : cardNum},  () => {return{CardAttr: CardContent}});
   return (
     <div className="gridWrapper">
       <div className="filterBox">
-          <Filter></Filter>
-       </div>
+        <Filter></Filter>
+      </div>
       <div className="cardPageBox">
-          {<CardGrid cardNums={cardNum}  CardList={CardList}/>
-          }
+        <CarCardGrid></CarCardGrid>
       </div>
     </div>
   );

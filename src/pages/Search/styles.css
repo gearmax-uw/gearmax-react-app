@@ -19,12 +19,11 @@
   }
 
   .filterBox{
-    grid-column-start: 1;
-    grid-column-end: 5;
+    grid-column-start: 2;
+    grid-column-end: 4;
   }
 
   .cardPageBox{
-    grid-column-start: 5;
-    grid-column-end: 11;
-    margin: 0.7cm 0.85cm;
+    grid-column-start: 4;
+    grid-column-end: 12;
   }
