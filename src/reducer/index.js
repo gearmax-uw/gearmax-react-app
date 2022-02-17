@@ -13,6 +13,11 @@ function filterParam(state = {}, action) {
                 ...state,
                 body: action.payload
             };
+        case "fuel":
+            return {
+                ...state,
+                body: action.fuel
+            };
         case "city":
             return {
                 ...state,
@@ -42,6 +47,11 @@ function filterParam(state = {}, action) {
             return {
                 ...state,
                 seating: action.payload
+            };
+        case "transmission":
+            return {
+                ...state,
+                transmission: action.payload
             };
         case "transmission_display":
             return {
@@ -94,7 +104,7 @@ function carData(state = [], action) {
     switch (action.type) {
         case SUCCESS_FETCH_CARS:
             if (action.payload) {
-                console.log(action.payload);
+                // console.log(action.payload);
                 return action.payload;
             }
             return state;

@@ -1,4 +1,3 @@
-import React, { Component }  from 'react';
 import { BrowserRouter } from "react-router-dom";
 import ReactDOM from 'react-dom'
 import { I18nextProvider } from "react-i18next";
@@ -18,9 +17,9 @@ declare global {
   }
 }
 
-window.localBaseUrl = "http://localhost:8080/car/list";
-// window.baseUrl = "http://34.125.152.171:8080/car/list";
-window.baseUrl = "http://localhost:8080/car/list";
+// window.localBaseUrl = "http://localhost:8080/car/list";
+window.baseUrl = "http://34.125.152.171:8080/car/list";
+// window.baseUrl = "http://localhost:8080/car/list";
 window.carsPerPage = 20;
 
 // fetch data first

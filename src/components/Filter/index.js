@@ -84,6 +84,16 @@ const makeoption = [
   { value: '', label: '' }
 ]
 
+const fueloption = [
+  { value: 'gasoline', label: 'Gasoline' },
+  { value: 'flex-fuel-vehicle', label: 'Flex Fuel Vehicle' },
+  { value: 'hybrid', label: 'Hybrid' },
+  { value: 'diesel', label: 'Diesel' },
+  { value: 'biodiesel', label: 'Biodiesel' },
+  { value: 'electric', label: 'Electric' },
+  { value: '', label: '' }
+]
+
 const coloroption = [
   { value: 'blue', label: 'Blue' },
   { value: 'red', label: 'Red' },
@@ -99,6 +109,14 @@ const coloroption = [
   { value: 'pink', label: 'Pink' },
   { value: 'purple', label: 'Purple' },
   { value: 'teal', label: 'Teal' },
+  { value: '', label: '' }
+]
+
+const transmission_option = [
+  { value: 'a', label: 'A' },
+  { value: 'm', label: 'M' },
+  { value: 'cvt', label: 'CVT' },
+  { value: 'dual-clutch', label: 'Dual Clutch' },
   { value: '', label: '' }
 ]
 
@@ -150,6 +168,13 @@ function buildUrl(url, data) {
       payload: data["make"]["value"]
     });
   }
+  if (data["fuel"] && data["fuel"]["value"]) {
+    qp += "fuelType=" + data["fuel"]["value"] + "&";
+    store.dispatch({
+      type: "fuel",
+      payload: data["fuel"]["value"]
+    });
+  }
   if (data["mileage"]) {
     qp += "mileage=" + data["mileage"] + "&";
     store.dispatch({
@@ -184,6 +209,13 @@ function buildUrl(url, data) {
     store.dispatch({
       type: "year_low",
       payload: data["year_low"]
+    });
+  }
+  if (data["transmission"] && data["transmission"]["value"]) {
+    qp += "transmission=" + data["transmission"]["value"] + "&";
+    store.dispatch({
+      type: "transmission",
+      payload: data["transmission"]["value"]
     });
   }
   if (data["transmission_display"] && data["transmission_display"]["value"]) {
@@ -252,8 +284,18 @@ const Filter = (props) => {
       shouldDirty: true
     });
   };
+  const handleChange_fuel = (change) => {
+    setValue("fuel", change, {
+      shouldDirty: true
+    });
+  };
   const handleChange_color = (change) => {
     setValue("color", change, {
+      shouldDirty: true
+    });
+  };
+  const handleChange_transmission = (change) => {
+    setValue("transmission", change, {
       shouldDirty: true
     });
   };
@@ -293,6 +335,20 @@ const Filter = (props) => {
         )}
       />
 
+      <label>Fuel Type</label>
+      <Controller
+        name="fuel"
+        control={control}
+        render={() => (
+          <Select
+            options={fueloption}
+            defaultValue={''}
+            onChange={handleChange_fuel}
+            styles={customStyles}
+          />
+        )}
+      />
+
       <label>Year</label>
       <input {...register("year_low")} placeholder="From" />
       <input {...register("year_high")} placeholder="To" />
@@ -321,19 +377,19 @@ const Filter = (props) => {
         )}
       />
 
-      {/* <label>Transmission</label>
+      <label>Transmission</label>
       <Controller
         name="transmission"
         control={control}
         render={() => (
           <Select
-            options={transmissionoption}
+            options={transmission_option}
             defaultValue={''}
-            onChange={handleTransmission_color}
+            onChange={handleChange_transmission}
             styles={customStyles}
           />
         )}
-      /> */}
+      />
 
       <label>Transmission Display</label>
       <Controller

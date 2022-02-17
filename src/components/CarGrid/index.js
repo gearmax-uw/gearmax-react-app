@@ -136,7 +136,7 @@ class CarGrid extends Component {
         const cars = this.props.cars;
         const totalCars = this.props.totalCars;
         const { page, rowsPerPage } = this.state;
-        console.log(totalCars);
+        // console.log(totalCars);
 
         return <div className='card-grid-with-pagination'>
             <div className='card-grid'>
