@@ -83,7 +83,11 @@ function filterParam(state = {}, action) {
     }
 }
 
-function metaData(state = {}, action) {
+const initMetaData = {
+    totalElements: 0,
+    filterSubmitted: false
+}
+function metaData(state = initMetaData, action) {
     switch (action.type) {
         case TOTAL_ELEMENTS_UPDATE:
             return {

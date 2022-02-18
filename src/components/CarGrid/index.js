@@ -85,18 +85,11 @@ class CarGrid extends Component {
         if (qp.length > 0) {
             qp = qp.substring(0, qp.length - 1);
             url = url + "?" + qp;
-            if (store.getState().filterParam && store.getState().filterParam.page_size) {
-                url = url + "&pageSize=" + store.getState().filterParam.page_size;
-            } else {
-                url = url + "&pageSize=" + window.carsPerPage;
-            }
-            if (store.getState().filterParam && store.getState().filterParam.page_index) {
-                url = url + "&pageIndex=" + store.getState().filterParam.page_index;
-            } else {
-                url = url + "&pageIndex=0";
-            }
             url = url + "&pageSize=" + currentRowsPerPage + "&pageIndex=" + currentPage;
+        } else {
+            url = url + "?pageSize=" + currentRowsPerPage + "&pageIndex=" + currentPage;
         }
+        
         return url;
     }
 
