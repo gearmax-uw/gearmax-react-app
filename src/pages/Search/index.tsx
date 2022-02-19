@@ -8,7 +8,9 @@ const Search = () => {
   return (
     <div className="gridWrapper">
       <div className="filterBox">
+        <div className='StickySideBar'>
         <Filter></Filter>
+        </div>
       </div>
       <div className="cardPageBox">
         <CarCardGrid></CarCardGrid>
