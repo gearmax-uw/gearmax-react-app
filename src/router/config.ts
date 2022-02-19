@@ -9,6 +9,11 @@ const routes = [
     exact: true,
     component: "Search",
   },
+  {
+    path: ["/", "/predict"],
+    exact: true,
+    component: "Predict",
+  },
 
 ];
 
