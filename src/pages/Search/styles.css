@@ -25,6 +25,11 @@
     box-sizing: border-box;
   }
 
+  .StickySideBar{
+    position: sticky;
+    top: 0;
+  }
+
   .cardPageBox{
     grid-column-start: 4;
     grid-column-end: 12;
