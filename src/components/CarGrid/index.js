@@ -7,14 +7,28 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TablePagination from '@mui/material/TablePagination';
+import Divider from '@mui/material/Divider';
 import store from "../../store";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import "./styles.css";
 
 const theme = createTheme({
+    // overrides: {
+    //     MuiCardContent: {
+    //         root: {
+    //             border: "1px solid gray",
+    //             "&:last-child": {
+    //                 paddingBottom: "initial"
+    //             }
+    //         }
+    //     }
+    // },
     typography: {
         subtitle1: {
             fontSize: 16,
-            fontWeight: 550
+            fontWeight: 400,
+            fontFamily: `"Lato", "Helvetica", "Arial", sans-serif`,
+            color: "#1773cf",
         },
         subtitle2: {
             fontSize: 14,
@@ -22,15 +36,16 @@ const theme = createTheme({
         },
         body1: {
             fontSize: 20,
-            fontWeight: 520,
+            fontWeight: 400,
+            color: "#545b63",
+            fontFamily: `"Lato", "Helvetica", "Arial", sans-serif`,
         },
         body2: {
-            fontSize: 15,
-            fontWeight: 500,
-        },
-        button: {
-            fontStyle: 'italic',
-        },
+            fontSize: 12,
+            fontWeight: 400,
+            color: '#2a343d',
+            fontFamily: `"Lato", "Helvetica", "Arial", sans-serif`,
+        }
     },
 });
 
@@ -89,7 +104,7 @@ class CarGrid extends Component {
         } else {
             url = url + "?pageSize=" + currentRowsPerPage + "&pageIndex=" + currentPage;
         }
-        
+
         return url;
     }
 
@@ -133,38 +148,41 @@ class CarGrid extends Component {
 
         return <div className='card-grid-with-pagination'>
             <div className='card-grid'>
-                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    {cars.map((car, index) => {
-                        car.makeName = car.makeName.replace('-', ' ');
-                        return (
-                            <Grid item xs={2} sm={4} md={3} key={index}>
-                                <Card sx={{ maxWidth: 500 }}>
-                                    <CardMedia
-                                        component="img"
-                                        alt="image not displayed"
-                                        height="140"
-                                        image={car.mainPictureUrl}
-                                    />
-                                    <CardContent>
-                                        <ThemeProvider theme={theme}>
+                <ThemeProvider theme={theme}>
+                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                        {cars.map((car, index) => {
+                            car.makeName = car.makeName.replace('-', ' ');
+                            const convertedCarPrice = car.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            return (
+                                <Grid item xs={2} sm={4} md={3} key={index}>
+                                    <Card sx={{ maxWidth: 500 }}>
+                                        <CardMedia
+                                            component="img"
+                                            alt="image not displayed"
+                                            height="140"
+                                            image={car.mainPictureUrl}
+                                        />
+                                        <CardContent>
                                             <Typography variant="subtitle1">
-                                                {car.year} {car.makeName}
-                                            </Typography>
-                                            <Typography variant="subtitle2">
-                                                {car.modelName}
+                                                <span className="make">{car.year} {car.makeName}</span>
+                                                <span className="model">{car.modelName}</span>
                                             </Typography>
                                             <Typography variant="body1">
-                                                ${car.price}  <span>&#8284;</span> {car.mileage} mi
+                                                <span className="priceAndMileage">${convertedCarPrice}  <span>&#8284;</span> {car.mileage} mi</span>
                                             </Typography>
-                                        </ThemeProvider>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        );
-                    })}
-                </Grid>
+                                            <Divider />
+                                            <Typography variant="body2" sx={{ pt: 0.5 }}>
+                                                {car.city}, {car.country}, {car.zip}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            );
+                        })}
+                    </Grid>
+                </ThemeProvider>
             </div>
-            &nbsp;
+            & nbsp;
             <div className='pagination'>
                 <TablePagination
                     component="div"
@@ -176,7 +194,7 @@ class CarGrid extends Component {
                     onRowsPerPageChange={this.handleChangeRowsPerPage}
                 />
             </div>
-        </div>
+        </div >
     }
 }
 

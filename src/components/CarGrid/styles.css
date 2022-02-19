@@ -1,0 +1,12 @@
+.card-grid-with-pagination {
+    padding: 2rem 0rem;
+}
+
+.make {
+    display: block;
+    height: 16px;
+}
+
+.priceAndMileage{
+    height: 35px;
+}
