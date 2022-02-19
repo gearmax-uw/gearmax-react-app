@@ -92,7 +92,7 @@ const Header = ({ t }: any) => {
 
         <CustomLinkSmall to="/predict" >
           <Span>
-            {t("Add/Predict")}
+            {t("Predict")}
           </Span>
         </CustomLinkSmall>
       </>
