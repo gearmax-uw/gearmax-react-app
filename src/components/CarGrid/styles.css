@@ -1,5 +1,5 @@
 .card-grid-with-pagination {
-    padding: 2rem 0rem;
+    padding: 1rem 0rem;
 }
 
 .make {
@@ -7,6 +7,6 @@
     height: 16px;
 }
 
-.priceAndMileage{
+.priceAndMileage {
     height: 35px;
 }

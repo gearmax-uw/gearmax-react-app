@@ -117,7 +117,7 @@ const Predict = (props) => {
   const { register, control, setValue, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = data => {
-console.log(data)
+    console.log(data)
   };
   const handleChange_body = (change) => {
     setValue("body", change, {
@@ -143,86 +143,86 @@ console.log(data)
 
   return (
     <div>
-    <form className="form_container" onSubmit={handleSubmit(onSubmit)}>
-      <div className="label_container">Please enter the following information of your car:</div>
-      <label>Car Make</label>
-      <Controller
-        name="make"
-        control={control}
-        render={() => (
-          <Select
-            options={makeoption}
-            defaultValue={''}
-            onChange={handleChange_make}
-            styles={customStyles}
-          />
-        )}
-      />
+      <form className="form_container" onSubmit={handleSubmit(onSubmit)}>
+        <div className="label_container">Please enter the following information of your car:</div>
+        <label>Car Make</label>
+        <Controller
+          name="make"
+          control={control}
+          render={() => (
+            <Select
+              options={makeoption}
+              defaultValue={''}
+              onChange={handleChange_make}
+              styles={customStyles}
+            />
+          )}
+        />
 
-      <label>Body Type</label>
-      <Controller
-        name="body"
-        control={control}
-        render={() => (
-          <Select
-            options={bodyoption}
-            defaultValue={''}
-            onChange={handleChange_body}
-            styles={customStyles}
-          />
-        )}
-      />
+        <label>Body Type</label>
+        <Controller
+          name="body"
+          control={control}
+          render={() => (
+            <Select
+              options={bodyoption}
+              defaultValue={''}
+              onChange={handleChange_body}
+              styles={customStyles}
+            />
+          )}
+        />
 
-      <label>Fuel Type</label>
-      <Controller
-        name="fuel"
-        control={control}
-        render={() => (
-          <Select
-            options={fueloption}
-            defaultValue={''}
-            onChange={handleChange_fuel}
-            styles={customStyles}
-          />
-        )}
-      />
+        <label>Fuel Type</label>
+        <Controller
+          name="fuel"
+          control={control}
+          render={() => (
+            <Select
+              options={fueloption}
+              defaultValue={''}
+              onChange={handleChange_fuel}
+              styles={customStyles}
+            />
+          )}
+        />
 
-      <label>Year</label>
-      <input {...register("year")}/>
-  
+        <label>Year</label>
+        <input {...register("year")} />
 
-   
-      <label> Mileage</label>
-      <input {...register("mileage")} />
 
-      <label> Seating</label>
-      <input {...register("seating")}/>
 
-      <label>Exterior Color</label>
-      <Controller
-        name="color"
-        control={control}
-        render={() => (
-          <Select
-            options={coloroption}
-            defaultValue={''}
-            onChange={handleChange_color}
-            styles={customStyles}
-          />
-        )}
-      />
+        <label> Mileage</label>
+        <input {...register("mileage")} />
 
-   
-      <input type="submit" />
-    </form>
+        <label> Seating</label>
+        <input {...register("seating")} />
 
-<div className="form_container">
-  <div className="label_container">
-  The price predicted for your car:
-  </div>
-<div className="prediction_container">CAD 10000</div>
-</div>
-</div>
+        <label>Exterior Color</label>
+        <Controller
+          name="color"
+          control={control}
+          render={() => (
+            <Select
+              options={coloroption}
+              defaultValue={''}
+              onChange={handleChange_color}
+              styles={customStyles}
+            />
+          )}
+        />
+
+
+        <input type="submit" />
+      </form>
+
+      <div className="form_container">
+        <div className="label_container">
+          The price predicted for your car:
+        </div>
+        <div className="prediction_container">CAD 10000</div>
+      </div>
+    </div>
   );
 };
 

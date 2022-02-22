@@ -93,22 +93,16 @@ export const CustomLinkSmall = styled(Link)`
 `;
 
 export const Label = styled("span")`
-  font-weight: 800;
-  font-size: 1.8rem;
+  font-weight: 900;
+  font-size: 2.0rem;
   font-family: "Motiva Sans Light", sans-serif;
-  // font-size: 15px;
-  // line-height: 1rem;
   padding: 0.5rem 0;
-  // text-transform: uppercase;
   color: #18216d;
-  // color: #404041;
   text-align: right;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
 `;
-
-
 
 export const Outline = styled(MenuOutlined)<any>`
   font-size: 22px;
