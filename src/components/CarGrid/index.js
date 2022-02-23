@@ -11,7 +11,7 @@ import Divider from '@mui/material/Divider';
 import store from "../../store";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./styles.css";
-
+import "./img.css";
 const theme = createTheme({
     // overrides: {
     //     MuiCardContent: {
@@ -145,7 +145,15 @@ class CarGrid extends Component {
         const totalCars = this.props.totalCars;
         const { page, rowsPerPage } = this.state;
         // console.log(totalCars);
-
+        if (totalCars==0){
+            return(
+                <div className='image-container'>
+                    <h2>No Result</h2>
+                    <img src="./img/icons/no_result.jpg"/>
+                </div>
+            );
+        }
+        else{
         return <div className='card-grid-with-pagination'>
             <div className='card-grid'>
                 <ThemeProvider theme={theme}>
@@ -153,6 +161,7 @@ class CarGrid extends Component {
                         {cars.map((car, index) => {
                             car.makeName = car.makeName.replace('-', ' ');
                             const convertedCarPrice = car.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            if (car.mainPictureUrl) {
                             return (
                                 <Grid item xs={2} sm={4} md={3} key={index}>
                                     <Card sx={{ maxWidth: 500 }}>
@@ -177,7 +186,34 @@ class CarGrid extends Component {
                                         </CardContent>
                                     </Card>
                                 </Grid>
-                            );
+                            );}
+                            else{
+                                return(
+                                    <Grid item xs={2} sm={4} md={3} key={index}>
+                                    <Card sx={{ maxWidth: 500 }}>
+                                        <img src="./img/icons/no.png"/>
+                                        <CardMedia
+                                            alt="image not displayed"
+                                            height="140"
+                           
+                                        />
+                                        <CardContent>
+                                            <Typography variant="subtitle1">
+                                                <span className="make">{car.year} {car.makeName}</span>
+                                                <span className="model">{car.modelName}</span>
+                                            </Typography>
+                                            <Typography variant="body1">
+                                                <span className="priceAndMileage">${convertedCarPrice}  <span>&#8284;</span> {car.mileage} mi</span>
+                                            </Typography>
+                                            <Divider />
+                                            <Typography variant="body2" sx={{ pt: 0.5 }}>
+                                                {car.city}, {car.country}, {car.zip}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                                );
+                            }
                         })}
                     </Grid>
                 </ThemeProvider>
@@ -195,7 +231,7 @@ class CarGrid extends Component {
                 />
             </div>
         </div >
-    }
+    }}
 }
 
 export default connect(mapStateToProps)(CarGrid);
