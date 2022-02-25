@@ -6,7 +6,8 @@ import ReactSelect from "react-select";
 import {
   Input,
   Row,
-  Col
+  Col,
+  Form
 } from "antd";
 
 const customStyles = {
@@ -253,6 +254,10 @@ function buildUrl(url, data) {
 
   if (store.getState().filterParam && store.getState().filterParam.sort) {
     url = url + "&sort=" + store.getState().filterParam.sort;
+
+    if (store.getState().filterParam.sort_order) {
+      url = url + "&sortOrder=" + store.getState().filterParam.sort_order;
+    }
   }
 
   return url
@@ -415,7 +420,11 @@ const Filter = (props) => {
                         name="year_low"
                         render={({ field }) =>
                           <Input
-                            {...register("year_low")}
+                            {...register("year_low", {
+                              required: false,
+                              min: 1800,
+                              max: 2022,
+                            })}
                             {...field}
                             placeholder="From"
                             size='large'
@@ -430,7 +439,11 @@ const Filter = (props) => {
                         name="year_high"
                         render={({ field }) =>
                           <Input
-                            {...register("year_high")}
+                            {...register("year_high", {
+                              required: false,
+                              min: 1800,
+                              max: 2022,
+                            })}
                             {...field}
                             placeholder="To"
                             size='large'
@@ -452,7 +465,11 @@ const Filter = (props) => {
                         name="price_low"
                         render={({ field }) =>
                           <Input
-                            {...register("price_low")}
+                            {...register("price_low", {
+                              required: false,
+                              min: 0,
+                              max: 100000000,
+                            })}
                             {...field}
                             placeholder="From"
                             size='large'
@@ -467,7 +484,11 @@ const Filter = (props) => {
                         name="price_high"
                         render={({ field }) =>
                           <Input
-                            {...register("price_high")}
+                            {...register("price_high", {
+                              required: false,
+                              min: 0,
+                              max: 100000000,
+                            })}
                             {...field}
                             placeholder="To"
                             size='large'
@@ -486,7 +507,11 @@ const Filter = (props) => {
                   name="mileage"
                   render={({ field }) =>
                     <Input
-                      {...register("mileage")}
+                      {...register("mileage", {
+                        required: false,
+                        min: 0,
+                        max: 100000000,
+                      })}
                       {...field}
                       placeholder="Less than"
                       size='large'
@@ -503,7 +528,11 @@ const Filter = (props) => {
                   name="seating"
                   render={({ field }) =>
                     <Input
-                      {...register("seating")}
+                      {...register("seating", {
+                        required: false,
+                        min: 0,
+                        max: 100,
+                      })}
                       {...field}
                       placeholder="Less than"
                       size='large'
@@ -572,6 +601,7 @@ const Filter = (props) => {
                     />
                   }
                 />
+                <br />
 
                 <input type="submit" />
               </form>
