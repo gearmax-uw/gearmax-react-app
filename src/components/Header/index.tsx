@@ -47,6 +47,13 @@ const Header = ({ t }: any) => {
         url = url + "?pageSize=" + window.carsPerPage + "&pageIndex=0";
       }
     }
+    if (store.getState().filterParam && store.getState().filterParam.sort) {
+      url = url + "&sort=" + store.getState().filterParam.sort;
+  
+      if (store.getState().filterParam.sort_order) {
+        url = url + "&sortOrder=" + store.getState().filterParam.sort_order;
+      }
+    }
     // console.log(url);
     return url;
   }

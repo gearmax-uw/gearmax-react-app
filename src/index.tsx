@@ -7,7 +7,6 @@ import "antd/dist/antd.css";
 import Router from "./router";
 import i18n from "./translation";
 import { fetchCars } from './action'
-import { withStyles } from "@material-ui/core/styles";
 
 declare global {
   interface Window { 

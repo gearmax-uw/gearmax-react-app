@@ -120,7 +120,7 @@ right: 30px;
 z-index: 9999999;
 }
 
-button[type="button"] {
+_button[type="button"] {
 padding: 5px;
 background: #516391;
 color: white;
@@ -131,7 +131,7 @@ letter-spacing: 1px;
 }
 
 input[type="submit"]:hover,
-button[type="button"]:hover {
+_button[type="button"]:hover {
 background: #516391;
 color: white;
 }

@@ -1,12 +1,41 @@
-.card-grid-with-pagination {
-    padding: 2rem 0rem;
-}
-
 .make {
     display: block;
     height: 16px;
 }
 
-.priceAndMileage{
+.priceAndMileage {
     height: 35px;
+}
+
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    height: 600px;
+    align-items: center;
+    text-align: center;
+}
+
+.image-no-result {
+    height: 350px;
+    width: 40%;
+}
+
+.no-result-text {
+    display: block;
+    font-family: "Motiva Sans Light", sans-serif;
+    font-weight: 800;
+    text-align: center;
+    font-size: 20px;
+    color: #18216d;
+}
+
+.card-grid-header {
+    margin: 1rem, 1rem;
+}
+
+.card-grid-with-pagination {
+    padding: 1rem 2rem;
+    max-height: calc(100vh - 15rem);
+    overflow-y: auto;
 }
