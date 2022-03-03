@@ -4,11 +4,15 @@ import { fetchCars } from '../../action';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import { Button, CardActionArea, CardActions } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TablePagination from '@mui/material/TablePagination';
 import store from "../../store";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {createTheme, ThemeProvider } from "@mui/material/styles";
+
+import PopoutWindow from "../PopoutWindow"
+
 
 const theme = createTheme({
     typography: {
@@ -47,8 +51,11 @@ class CarGrid extends Component {
         super(props);
         this.state = {
             page: 0,
-            rowsPerPage: window.carsPerPage
+            rowsPerPage: window.carsPerPage,
+            openPopout: false
         }
+        this.handleOpenPop = this.handleOpenPop.bind(this);
+        this.handlePopoutWindow = this.handlePopoutWindow.bind(this);
     }
 
     buildUrl(url, currentPage, currentRowsPerPage) {
@@ -132,6 +139,18 @@ class CarGrid extends Component {
         store.dispatch(fetchCars(fetchUrl));
     };
 
+    handlePopoutWindow = (event) => {
+        this.setState({
+            openPopout: event.open
+        })
+    }
+
+    handleOpenPop = () => {
+        this.setState({
+            openPopout: true
+        })
+    }
+
     render() {
         const cars = this.props.cars;
         const totalCars = this.props.totalCars;
@@ -146,25 +165,30 @@ class CarGrid extends Component {
                         return (
                             <Grid item xs={2} sm={4} md={3} key={index}>
                                 <Card sx={{ maxWidth: 500 }}>
-                                    <CardMedia
-                                        component="img"
-                                        alt="image not displayed"
-                                        height="140"
-                                        image={car.mainPictureUrl}
-                                    />
-                                    <CardContent>
-                                        <ThemeProvider theme={theme}>
-                                            <Typography variant="subtitle1">
-                                                {car.year} {car.makeName}
-                                            </Typography>
-                                            <Typography variant="subtitle2">
-                                                {car.modelName}
-                                            </Typography>
-                                            <Typography variant="body1">
-                                                ${car.price}  <span>&#8284;</span> {car.mileage} mi
-                                            </Typography>
-                                        </ThemeProvider>
-                                    </CardContent>
+                                        <CardActions>
+                                            <Button onclick={this.handleOpenPop} fullWidth={true}>
+                                                <CardMedia
+                                                    component="img"
+                                                    alt="image not displayed"
+                                                    height="140"
+                                                    image={car.mainPictureUrl}
+                                                />
+                                            </Button>
+                                            <PopoutWindow car={car} open={/*this.state.openPopout*/true} handleClose={this.handlePopoutWindow}></PopoutWindow>
+                                         </CardActions>
+                                        <CardContent>
+                                            <ThemeProvider theme={theme}>
+                                                <Typography variant="subtitle1">
+                                                    {car.year} {car.makeName}
+                                                </Typography>
+                                                <Typography variant="subtitle2">
+                                                    {car.modelName}
+                                                </Typography>
+                                                <Typography variant="body1">
+                                                    ${car.price}  <span>&#8284;</span> {car.mileage} mi
+                                                </Typography>
+                                            </ThemeProvider>
+                                        </CardContent>
                                 </Card>
                             </Grid>
                         );
