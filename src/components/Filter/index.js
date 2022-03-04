@@ -337,11 +337,11 @@ const Filter = (props) => {
 
   return (
     <aside id="sidebar">
-      <div className="sideBarWrapper">
+      <div className="sideBarWrapper" data-testid="text">
         <div className="filterHeader">
           <div className="filterTitle">
             Filter
-            <button type="button" className="btnClearFilter" onClick={() => {
+            <button type="button" data-testid="button" className="btnClearFilter" onClick={() => {
               reset({
                 make: { value: "", label: "" },
                 body: { value: "", label: "" },
@@ -363,7 +363,7 @@ const Filter = (props) => {
         <div className="filterBody">
           <div className='scrollHostContainer'>
             <div className='scrollhost'>
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form data-testid="form" onSubmit={handleSubmit(onSubmit)}>
                 <label>Car Make</label>
 
                 <Controller
