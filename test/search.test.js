@@ -1,7 +1,7 @@
 import { render,screen,act,fireEvent } from '@testing-library/react';
 import Filter from '../src/components/Filter';
 import "@testing-library/jest-dom/extend-expect";
-
+import SearchCardPage from '../src/components/SearchCardPage';
 
 // workaround
 Object.defineProperty(window, 'matchMedia', {
@@ -42,7 +42,21 @@ describe('Form Submit', () => {
 
         jest.spyOn(console, 'log');
 
-        const buttonElement = screen.getByTestId("button");
+        const buttonElement = screen.getByTestId("submit_button");
+   
+        fireEvent.click(buttonElement)
+
+        expect(console.log)
+    });
+   })
+
+   describe('Clears Filter', () => {
+    test('it renders', () => {
+        render(<Filter />); 
+
+        jest.spyOn(console, 'log');
+
+        const buttonElement = screen.getByTestId("clear_button");
    
         fireEvent.click(buttonElement)
 
@@ -52,3 +66,17 @@ describe('Form Submit', () => {
 
     });
    })
+
+   describe('Renders Search Card Page', () => {
+    it("renders home", () => {
+      render(<SearchCardPage />); 
+   
+    });
+    });
+
+    // describe('Home', () => {
+    //   it("renders home", () => {
+    //     render(<SearchCard />); 
+     
+    //   });
+    //   });

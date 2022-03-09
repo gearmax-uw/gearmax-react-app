@@ -142,7 +142,7 @@ const Predict = (props) => {
 
 
   return (
-    <div>
+    <div  data-testid="predict_text">
       <form className="form_container" onSubmit={handleSubmit(onSubmit)}>
         <div className="label_container">Please enter the following information of your car:</div>
         <label>Car Make</label>
@@ -213,7 +213,7 @@ const Predict = (props) => {
         />
 
 
-        <input type="submit" />
+        <input data-testid="predict_button" type="submit" />
       </form>
 
       <div className="form_container">
