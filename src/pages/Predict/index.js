@@ -1,39 +1,16 @@
 import React, { useEffect } from 'react';
 import { useForm, Controller } from "react-hook-form";
-import "./styles.css";
 import { Select } from 'antd';
 import {
     Input,
     Row,
     Col,
 } from "antd";
+import axios from 'axios'
+import "./styles.css";
 import jsonData from "../../json/web_dic.json";
 
 const { Option } = Select;
-
-const customStyles = {
-    control: (provided, state) => ({
-        ...provided,
-        marginBottom: '20px',
-        boxShadow: state.isFocused ? null : null,
-    }),
-
-    valueContainer: (provided, state) => ({
-        ...provided,
-        height: '40px',
-        padding: '0 6px'
-    }),
-
-    input: (provided, state) => ({
-        ...provided,
-    }),
-    indicatorSeparator: state => ({
-        display: 'none',
-    }),
-    indicatorsContainer: (provided, state) => ({
-        ...provided,
-    }),
-}
 
 const colorOptions = [
     { value: 'Black', label: 'Black' },
@@ -82,7 +59,7 @@ function getModels(make) {
     var allModels = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make) {
+        if (x['make_name'] === make) {
             if (!containsObject(x['model_name'], allModels)) {
                 allModels.push(x['model_name']);
             }
@@ -95,7 +72,7 @@ function getBodies(make, model) {
     var allBodies = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model) {
+        if (x['make_name'] === make && x['model_name'] === model) {
             if (!containsObject(x['body_type'], allBodies)) {
                 allBodies.push(x['body_type']);
             }
@@ -108,7 +85,7 @@ function getFuels(make, model, body) {
     var allFuels = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body) {
             if (!containsObject(x['fuel_type'], allFuels)) {
                 allFuels.push(x['fuel_type']);
             }
@@ -121,7 +98,7 @@ function getTransmissions(make, model, body, fuel) {
     var allTransmissions = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body && x['fuel_type'] == fuel) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel) {
             if (!containsObject(x['transmission'], allTransmissions)) {
                 allTransmissions.push(x['transmission']);
             }
@@ -135,8 +112,8 @@ function getPowers(make, model, body, fuel, transmission) {
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
         // console.log('make='+make+'; model='+model+'; body='+body+"; fuel="+fuel+"; transmission="+transmission);
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body && x['fuel_type'] == fuel
-            && x['transmission'] == transmission) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel
+            && x['transmission'] === transmission) {
             if (!containsObject(x['horsepower'], allPowers)) {
                 allPowers.push(x['horsepower']);
             }
@@ -149,8 +126,8 @@ function getEngineDisplacements(make, model, body, fuel, transmission, horsepowe
     var allDisplacements = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body && x['fuel_type'] == fuel
-            && x['transmission'] == transmission && x['horsepower'] == horsepower) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel
+            && x['transmission'] === transmission && x['horsepower'] === horsepower) {
             if (!containsObject(x['engine_displacement'], allDisplacements)) {
                 allDisplacements.push(x['engine_displacement']);
             }
@@ -163,8 +140,8 @@ function getEngineTypes(make, model, body, fuel, transmission, horsepower, displ
     var allEngines = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body && x['fuel_type'] == fuel
-            && x['transmission'] == transmission && x['horsepower'] == horsepower && x['engine_displacement'] == displacement) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel
+            && x['transmission'] === transmission && x['horsepower'] === horsepower && x['engine_displacement'] === displacement) {
             if (!containsObject(x['engine_type'], allEngines)) {
                 allEngines.push(x['engine_type']);
             }
@@ -177,9 +154,9 @@ function getTorquePowers(make, model, body, fuel, transmission, horsepower, disp
     var allTorques = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body && x['fuel_type'] == fuel
-            && x['transmission'] == transmission && x['horsepower'] == horsepower && x['engine_displacement'] == displacement
-            && x['engine_type'] == engineType) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel
+            && x['transmission'] === transmission && x['horsepower'] === horsepower && x['engine_displacement'] === displacement
+            && x['engine_type'] === engineType) {
             if (!containsObject(x['torque_power'], allTorques)) {
                 allTorques.push(x['torque_power']);
             }
@@ -192,9 +169,9 @@ function getTorqueRpms(make, model, body, fuel, transmission, horsepower, displa
     var allTrpms = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body && x['fuel_type'] == fuel
-            && x['transmission'] == transmission && x['horsepower'] == horsepower && x['engine_displacement'] == displacement
-            && x['engine_type'] == engineType && x['torque_power'] == torquePower) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel
+            && x['transmission'] === transmission && x['horsepower'] === horsepower && x['engine_displacement'] === displacement
+            && x['engine_type'] === engineType && x['torque_power'] === torquePower) {
             if (!containsObject(x['torque_rpm'], allTrpms)) {
                 allTrpms.push(x['torque_rpm']);
             }
@@ -207,9 +184,9 @@ function getPowerRpms(make, model, body, fuel, transmission, horsepower, displac
     var allPrpms = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body && x['fuel_type'] == fuel
-            && x['transmission'] == transmission && x['horsepower'] == horsepower && x['engine_displacement'] == displacement
-            && x['engine_type'] == engineType && x['torque_power'] == torquePower && x['torque_rpm'] == torqueRpm) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel
+            && x['transmission'] === transmission && x['horsepower'] === horsepower && x['engine_displacement'] === displacement
+            && x['engine_type'] === engineType && x['torque_power'] === torquePower && x['torque_rpm'] === torqueRpm) {
             if (!containsObject(x['power_rpm'], allPrpms)) {
                 allPrpms.push(x['power_rpm']);
             }
@@ -223,10 +200,10 @@ function getWheelSystems(make, model, body, fuel, transmission, horsepower, disp
     var allWheels = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body && x['fuel_type'] == fuel
-            && x['transmission'] == transmission && x['horsepower'] == horsepower && x['engine_displacement'] == displacement
-            && x['engine_type'] == engineType && x['torque_power'] == torquePower && x['torque_rpm'] == torqueRpm
-            && x['power_rpm'] == powerRpm) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel
+            && x['transmission'] === transmission && x['horsepower'] === horsepower && x['engine_displacement'] === displacement
+            && x['engine_type'] === engineType && x['torque_power'] === torquePower && x['torque_rpm'] === torqueRpm
+            && x['power_rpm'] === powerRpm) {
             if (!containsObject(x['wheel_system'], allWheels)) {
                 allWheels.push(x['wheel_system']);
             }
@@ -243,10 +220,10 @@ function getGears(make, model, body, fuel, transmission, horsepower, displacemen
     var allGears = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body && x['fuel_type'] == fuel
-            && x['transmission'] == transmission && x['horsepower'] == horsepower && x['engine_displacement'] == displacement
-            && x['engine_type'] == engineType && x['torque_power'] == torquePower && x['torque_rpm'] == torqueRpm
-            && x['power_rpm'] == powerRpm && x['wheel_system'] == wheelSystem) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel
+            && x['transmission'] === transmission && x['horsepower'] === horsepower && x['engine_displacement'] === displacement
+            && x['engine_type'] === engineType && x['torque_power'] === torquePower && x['torque_rpm'] === torqueRpm
+            && x['power_rpm'] === powerRpm && x['wheel_system'] === wheelSystem) {
             if (!containsObject(x['transmission_display'], allGears)) {
                 allGears.push(x['transmission_display']);
             }
@@ -263,10 +240,10 @@ function getYears(make, model, body, fuel, transmission, horsepower, displacemen
     var allYears = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body && x['fuel_type'] == fuel
-            && x['transmission'] == transmission && x['horsepower'] == horsepower && x['engine_displacement'] == displacement
-            && x['engine_type'] == engineType && x['torque_power'] == torquePower && x['torque_rpm'] == torqueRpm
-            && x['power_rpm'] == powerRpm && x['wheel_system'] == wheelSystem && x['transmission_display'] == transmissionDisplay) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel
+            && x['transmission'] === transmission && x['horsepower'] === horsepower && x['engine_displacement'] === displacement
+            && x['engine_type'] === engineType && x['torque_power'] === torquePower && x['torque_rpm'] === torqueRpm
+            && x['power_rpm'] === powerRpm && x['wheel_system'] === wheelSystem && x['transmission_display'] === transmissionDisplay) {
             if (!containsObject(x['year'], allYears)) {
                 allYears.push(x['year']);
             }
@@ -280,10 +257,10 @@ function getFuelTankVolumes(make, model, body, fuel, transmission, horsepower, d
     var allTanks = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body && x['fuel_type'] == fuel
-            && x['transmission'] == transmission && x['horsepower'] == horsepower && x['engine_displacement'] == displacement
-            && x['engine_type'] == engineType && x['torque_power'] == torquePower && x['torque_rpm'] == torqueRpm
-            && x['power_rpm'] == powerRpm && x['wheel_system'] == wheelSystem && x['transmission_display'] == transmissionDisplay) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel
+            && x['transmission'] === transmission && x['horsepower'] === horsepower && x['engine_displacement'] === displacement
+            && x['engine_type'] === engineType && x['torque_power'] === torquePower && x['torque_rpm'] === torqueRpm
+            && x['power_rpm'] === powerRpm && x['wheel_system'] === wheelSystem && x['transmission_display'] === transmissionDisplay) {
             if (!containsObject(x['fuel_tank_volume'], allTanks)) {
                 allTanks.push(x['fuel_tank_volume']);
             }
@@ -297,10 +274,10 @@ function getCityFuelEconomies(make, model, body, fuel, transmission, horsepower,
     var allCities = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body && x['fuel_type'] == fuel
-            && x['transmission'] == transmission && x['horsepower'] == horsepower && x['engine_displacement'] == displacement
-            && x['engine_type'] == engineType && x['torque_power'] == torquePower && x['torque_rpm'] == torqueRpm
-            && x['power_rpm'] == powerRpm && x['wheel_system'] == wheelSystem && x['transmission_display'] == transmissionDisplay) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel
+            && x['transmission'] === transmission && x['horsepower'] === horsepower && x['engine_displacement'] === displacement
+            && x['engine_type'] === engineType && x['torque_power'] === torquePower && x['torque_rpm'] === torqueRpm
+            && x['power_rpm'] === powerRpm && x['wheel_system'] === wheelSystem && x['transmission_display'] === transmissionDisplay) {
             if (!containsObject(x['city_fuel_economy'], allCities)) {
                 allCities.push(x['city_fuel_economy']);
             }
@@ -314,10 +291,10 @@ function getHighwayFuelEconomies(make, model, body, fuel, transmission, horsepow
     var allHighways = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body && x['fuel_type'] == fuel
-            && x['transmission'] == transmission && x['horsepower'] == horsepower && x['engine_displacement'] == displacement
-            && x['engine_type'] == engineType && x['torque_power'] == torquePower && x['torque_rpm'] == torqueRpm
-            && x['power_rpm'] == powerRpm && x['wheel_system'] == wheelSystem && x['transmission_display'] == transmissionDisplay) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel
+            && x['transmission'] === transmission && x['horsepower'] === horsepower && x['engine_displacement'] === displacement
+            && x['engine_type'] === engineType && x['torque_power'] === torquePower && x['torque_rpm'] === torqueRpm
+            && x['power_rpm'] === powerRpm && x['wheel_system'] === wheelSystem && x['transmission_display'] === transmissionDisplay) {
             if (!containsObject(x['highway_fuel_economy'], allHighways)) {
                 allHighways.push(x['highway_fuel_economy']);
             }
@@ -331,10 +308,10 @@ function getSeats(make, model, body, fuel, transmission, horsepower, displacemen
     var allSeats = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        if (x['make_name'] == make && x['model_name'] == model && x['body_type'] == body && x['fuel_type'] == fuel
-            && x['transmission'] == transmission && x['horsepower'] == horsepower && x['engine_displacement'] == displacement
-            && x['engine_type'] == engineType && x['torque_power'] == torquePower && x['torque_rpm'] == torqueRpm
-            && x['power_rpm'] == powerRpm && x['wheel_system'] == wheelSystem && x['transmission_display'] == transmissionDisplay) {
+        if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel
+            && x['transmission'] === transmission && x['horsepower'] === horsepower && x['engine_displacement'] === displacement
+            && x['engine_type'] === engineType && x['torque_power'] === torquePower && x['torque_rpm'] === torqueRpm
+            && x['power_rpm'] === powerRpm && x['wheel_system'] === wheelSystem && x['transmission_display'] === transmissionDisplay) {
             if (!containsObject(x['maximum_seating'], allSeats)) {
                 allSeats.push(x['maximum_seating']);
             }
@@ -384,9 +361,38 @@ const Predict = (props) => {
     const [seatValue, setSeatValue] = React.useState('');
     const [colorName, setColorName] = React.useState('');
     const [isNew, setIsNew] = React.useState('');
+    const [predictedPrice, setPredictedPrice] = React.useState('');
 
-    const onSubmit = data => {
-        console.log(data)
+    const onSubmit = () => {
+        axios.post(window.flaskUrl, {
+            make: makeName,
+            model: modelName,
+            body: bodyName,
+            fuel: fuelName,
+            transmission: transmissionName,
+            power: powerValue,
+            displacement: displacementValue,
+            engine: engineName,
+            torquePower: torquePowerValue,
+            torqueRpm: torqueRpmValue,
+            powerRpm: powerRpmValue,
+            wheelSystem: wheelSystemName,
+            gear: gearValue,
+            year: yearValue,
+            tank: tankValue,
+            cityFuelEconomy: cityFuelEconomyName,
+            highwayFuelEconomy: highwayFuelEconomyName,
+            seat: seatValue,
+            color: colorName,
+            isNew: isNew,
+        })
+            .then(function (response) {
+                // console.log(response);
+                setPredictedPrice(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     };
 
     useEffect(() => {
@@ -499,6 +505,10 @@ const Predict = (props) => {
         setSeats(allSeats);
         const defaultSeatValue = allSeats[0];
         setSeatValue(defaultSeatValue);
+
+        setColorName(colorOptions[0]);
+
+        setIsNew(isNewOptions[0]);
     }, []);
 
     const updateParams = (makeVal = '', modelVal = '', bodyVal = '',
@@ -1223,6 +1233,7 @@ const Predict = (props) => {
                             control={control}
                             render={() => (
                                 <Select
+                                    value={colorName}
                                     options={colorOptions}
                                     defaultValue={''}
                                     style={{ width: "100%" }}
@@ -1237,6 +1248,7 @@ const Predict = (props) => {
                             control={control}
                             render={() => (
                                 <Select
+                                    value={isNew}
                                     options={isNewOptions}
                                     defaultValue={''}
                                     style={{ width: "100%" }}
@@ -1256,7 +1268,7 @@ const Predict = (props) => {
                     render={({ field }) =>
                         <Input
                             {...register("mileage", {
-                                required: false,
+                                required: true,
                                 min: 0,
                                 max: 1000000,
                             })}
@@ -1276,7 +1288,7 @@ const Predict = (props) => {
                 <div className="label_container">
                     The price predicted for your car:
                 </div>
-                <div className="prediction_container">CAD 10000</div>
+                <div className="prediction_container">USD {predictedPrice}</div>
             </div>
         </div>
     );

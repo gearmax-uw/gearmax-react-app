@@ -7,7 +7,6 @@ import {
   Input,
   Row,
   Col,
-  Form
 } from "antd";
 
 const customStyles = {
@@ -371,7 +370,7 @@ const Filter = (props) => {
                   control={control}
                   render={({ field }) => (
                     <ReactSelect
-                     classNamePrefix='select'
+                      classNamePrefix='select'
                       isClearable
                       {...field}
                       options={makeoption}
@@ -511,7 +510,7 @@ const Filter = (props) => {
                       {...register("mileage", {
                         required: false,
                         min: 0,
-                        max: 100000000,
+                        max: 1000000,
                       })}
                       {...field}
                       placeholder="Less than"
@@ -604,7 +603,7 @@ const Filter = (props) => {
                 />
                 <br />
 
-                <input type="submit" data-testid="submit_button"/>
+                <input type="submit" data-testid="submit_button" />
               </form>
             </div>
             <div className='scroll-bar'>

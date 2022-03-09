@@ -25,10 +25,10 @@ const Header = ({ t }: any) => {
   const [visible, setVisibility] = useState(false);
   const [value, setValue] = useState("")
 
-  const buildUrl = (url:string, searchInput:string) => {
+  const buildUrl = (url: string, searchInput: string) => {
     var qp = "";
     if (searchInput) {
-      qp += "search="+searchInput;
+      qp += "search=" + searchInput;
       url = url + "?" + qp;
       if (store.getState().filterParam && store.getState().filterParam.page_size) {
         url = url + "&pageSize=" + store.getState().filterParam.page_size;
@@ -49,7 +49,7 @@ const Header = ({ t }: any) => {
     }
     if (store.getState().filterParam && store.getState().filterParam.sort) {
       url = url + "&sort=" + store.getState().filterParam.sort;
-  
+
       if (store.getState().filterParam.sort_order) {
         url = url + "&sortOrder=" + store.getState().filterParam.sort_order;
       }
@@ -60,7 +60,7 @@ const Header = ({ t }: any) => {
 
   const requestSearch = (e: any) => {
     e.preventDefault();
-    
+
     const input = value;
     const searchInput = input.replace(/\s+/g, '+').trim();
     // console.log(searchInput);
@@ -138,7 +138,7 @@ const Header = ({ t }: any) => {
       &nbsp;
       <Paper
         component="form"
-        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 1, boxShadow: 1} }
+        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 1, boxShadow: 1 }}
       >
         <InputBase
           sx={{ ml: 1, flex: 1 }}
