@@ -130,6 +130,12 @@ padding: 10px;
 letter-spacing: 1px;
 }
 
+#predict {
+ width: 65%;
+ margin: 0 auto;
+ display: block;
+}
+
 input[type="submit"]:hover,
 _button[type="button"]:hover {
 background: #516391;
