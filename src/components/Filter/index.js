@@ -341,7 +341,7 @@ const Filter = (props) => {
         <div className="filterHeader">
           <div className="filterTitle">
             Filter
-            <button type="button" data-testid="button" className="btnClearFilter" onClick={() => {
+            <button type="button" data-testid="clear_button" className="btnClearFilter" onClick={() => {
               reset({
                 make: { value: "", label: "" },
                 body: { value: "", label: "" },
@@ -371,6 +371,7 @@ const Filter = (props) => {
                   control={control}
                   render={({ field }) => (
                     <ReactSelect
+                     classNamePrefix='select'
                       isClearable
                       {...field}
                       options={makeoption}
@@ -603,7 +604,7 @@ const Filter = (props) => {
                 />
                 <br />
 
-                <input type="submit" />
+                <input type="submit" data-testid="submit_button"/>
               </form>
             </div>
             <div className='scroll-bar'>
