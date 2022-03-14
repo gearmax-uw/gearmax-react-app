@@ -111,7 +111,6 @@ function getPowers(make, model, body, fuel, transmission) {
     var allPowers = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
-        // console.log('make='+make+'; model='+model+'; body='+body+"; fuel="+fuel+"; transmission="+transmission);
         if (x['make_name'] === make && x['model_name'] === model && x['body_type'] === body && x['fuel_type'] === fuel
             && x['transmission'] === transmission) {
             if (!containsObject(x['horsepower'], allPowers)) {
@@ -214,9 +213,6 @@ function getWheelSystems(make, model, body, fuel, transmission, horsepower, disp
 
 function getGears(make, model, body, fuel, transmission, horsepower, displacement, engineType, torquePower,
     torqueRpm, powerRpm, wheelSystem) {
-    // console.log('make=' + make + "; model=" + model + "; body=" + body + "; fuel=" + fuel + "; transmission=" + transmission + "; horsepower=" + horsepower +
-    //     "; displacement=" + displacement + "; engineType=" + engineType + "; torquePower=" + torquePower + "; torqueRpm=" + torqueRpm +
-    //     "; powerRpm=" + powerRpm + "; wheelSystem=" + wheelSystem);
     var allGears = [];
     for (var i = 0; i < jsonData.length; i++) {
         var x = jsonData[i];
@@ -364,6 +360,27 @@ const Predict = (props) => {
     const [predictedPrice, setPredictedPrice] = React.useState('');
 
     const onSubmit = () => {
+        // console.log('make=' + makeName 
+        // + "; model=" + modelName 
+        // + "; body=" + bodyName 
+        // + "; fuel=" + fuelName 
+        // + "; transmission=" + transmissionName 
+        // + "; power=" + powerValue 
+        // + "; displacement=" + displacementValue 
+        // + "; engine=" + engineName 
+        // + "; torquePower=" + torquePowerValue 
+        // + "; torqueRpm=" + torqueRpmValue 
+        // + "; powerRpm=" + powerRpmValue 
+        // + "; wheelSystem=" + wheelSystemName 
+        // + "; gear=" + gearValue 
+        // + "; year=" + yearValue
+        // + "; tank=" + tankValue
+        // + "; cityFuelEconomy=" + cityFuelEconomyName
+        // + "; highwayFuelEconomy=" + highwayFuelEconomyName
+        // + "; seat=" + seatValue
+        // + "; color=" + colorName
+        // + "; isNew=" + isNew);
+
         axios.post(window.flaskUrl, {
             make: makeName,
             model: modelName,
@@ -506,9 +523,9 @@ const Predict = (props) => {
         const defaultSeatValue = allSeats[0];
         setSeatValue(defaultSeatValue);
 
-        setColorName(colorOptions[0]);
+        setColorName(colorOptions[0].value);
 
-        setIsNew(isNewOptions[0]);
+        setIsNew(isNewOptions[0].value);
     }, []);
 
     const updateParams = (makeVal = '', modelVal = '', bodyVal = '',
@@ -516,7 +533,6 @@ const Predict = (props) => {
         engineVal = '', torquePowerVal = '', torqueRpmVal = '', powerRpmVal = '',
         wheelSystemVal = '', gearVal = '', yearVal = '', tankVal = '', cfeVal = '',
         hfeVal = '', seatVal = '') => {
-        // console.log('makeVal='+makeVal+'; modelVal='+modelVal);
         var makeName = makeVal;
         if (!makeVal) {
             const allMakes = getMakes();
@@ -638,7 +654,6 @@ const Predict = (props) => {
                 transmissionName, powerValue, displacementValue, engineName,
                 torquePowerValue, torqueRpmValue, powerRpmValue, wheelSystemName,
                 gearValue);
-            // console.log(allYears);
             setYears(allYears);
             yearValue = allYears[0];
         }
