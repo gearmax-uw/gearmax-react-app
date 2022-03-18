@@ -317,7 +317,7 @@ function getSeats(make, model, body, fuel, transmission, horsepower, displacemen
 }
 
 const Predict = (props) => {
-    const { register, control, setValue, handleSubmit, formState: { errors } } = useForm();
+    const { register, control, getValues, handleSubmit, formState: { errors } } = useForm();
 
     const [makes, setMakes] = React.useState([]);
     const [makeName, setMakeName] = React.useState('');
@@ -402,6 +402,7 @@ const Predict = (props) => {
             seat: seatValue,
             color: colorName,
             isNew: isNew,
+            mileage: parseInt(getValues('mileage')),
         })
             .then(function (response) {
                 // console.log(response);

@@ -20,8 +20,9 @@ declare global {
 
 // window.localBaseUrl = "http://localhost:8080/car/list";
 // window.baseUrl = "http://localhost:8080/car/list";
+// window.flaskUrl = "http://localhost:5000/car/predict";
 window.baseUrl = "http://34.125.152.171:8080/car/list";
-window.flaskUrl = "http://localhost:5000/car/predict";
+window.flaskUrl = "http://34.125.152.171:5000/car/predict";
 window.carsPerPage = 20;
 
 // fetch data first
