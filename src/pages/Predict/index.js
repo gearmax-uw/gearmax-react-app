@@ -5,6 +5,8 @@ import {
     Input,
     Row,
     Col,
+    Spin,
+    Space
 } from "antd";
 import axios from 'axios'
 import "./styles.css";
@@ -317,7 +319,7 @@ function getSeats(make, model, body, fuel, transmission, horsepower, displacemen
 }
 
 const Predict = (props) => {
-    const { register, control, getValues, handleSubmit, formState: { errors } } = useForm();
+    const { register, control, getValues, handleSubmit } = useForm();
 
     const [makes, setMakes] = React.useState([]);
     const [makeName, setMakeName] = React.useState('');
@@ -358,6 +360,7 @@ const Predict = (props) => {
     const [colorName, setColorName] = React.useState('');
     const [isNew, setIsNew] = React.useState('');
     const [predictedPrice, setPredictedPrice] = React.useState('');
+    const [isLoading, setLoading] = React.useState(false);
 
     const onSubmit = () => {
         // console.log('make=' + makeName 
@@ -380,6 +383,7 @@ const Predict = (props) => {
         // + "; seat=" + seatValue
         // + "; color=" + colorName
         // + "; isNew=" + isNew);
+        setLoading(true);
 
         axios.post(window.flaskUrl, {
             make: makeName,
@@ -407,6 +411,7 @@ const Predict = (props) => {
             .then(function (response) {
                 // console.log(response);
                 setPredictedPrice(response.data);
+                setLoading(false);
             })
             .catch(function (error) {
                 console.log(error);
@@ -527,6 +532,8 @@ const Predict = (props) => {
         setColorName(colorOptions[0].value);
 
         setIsNew(isNewOptions[0].value);
+
+        setLoading(false);
     }, []);
 
     const updateParams = (makeVal = '', modelVal = '', bodyVal = '',
@@ -1301,10 +1308,22 @@ const Predict = (props) => {
             </form>
 
             <div className="form_container">
-                <div className="label_container">
-                    The price predicted for your car:
-                </div>
-                <div className="prediction_container">USD {predictedPrice}</div>
+                {isLoading ?
+                    <div className='loading'>
+                        <Space size="middle">
+                            <Spin size="small" />
+                            <Spin />
+                            <Spin size="large" />
+                        </Space>
+                    </div>
+                    : <div class="price_prediction">
+                        <div className="label_container">
+
+                            The price predicted for your car:
+                        </div>
+                        <div className="prediction_container">USD {predictedPrice}</div>
+                    </div>
+                }
             </div>
         </div>
     );

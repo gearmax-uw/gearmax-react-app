@@ -155,3 +155,11 @@ color: white;
 .preact:hover {
 opacity: 1;
 }
+
+.loading {
+  margin: 20px 0;
+  margin-bottom: 20px;
+  padding: 30px 50px;
+  text-align: center;
+  border-radius: 4px;
+}
