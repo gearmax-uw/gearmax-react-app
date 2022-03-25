@@ -1,25 +1,23 @@
-
-
 form {
-    max-width: 30%;
+    max-width: 80%;
     margin: 0 auto;
-  }
-
+    padding: 1rem 0rem;
+}
 
 .p {
     color: #bf1650;
     text-align: center;
 }
 label {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 700;
 }
 
 select,
 input {
   display: block;
   box-sizing: border-box;
-  border: 1px solid #cccccc;
+  border: 1px solid #bdb3b3;
   width: 100%;
   background: white;
   border-radius: 4px;
@@ -28,8 +26,6 @@ input {
   margin-bottom: 15px;
   font-size: 14px;
 }
-
-
 
 .label,
 section > label {
@@ -92,7 +88,7 @@ input[type="submit"],
   z-index: 9999999;
 }
 
-button[type="button"] {
+_button[type="button"] {
   padding: 5px;
   background: #516391;
   color: white;
@@ -103,7 +99,7 @@ button[type="button"] {
 }
 
 input[type="submit"]:hover,
-button[type="button"]:hover {
+_button[type="button"]:hover {
   background: #516391;
   color: white;
 }
@@ -120,4 +116,53 @@ input[type="submit"]:active {
 
 .preact:hover {
   opacity: 1;
+}
+
+.filterTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  color: rgb(109, 116, 122);
+  font-family: Lato, Corbel, "‘Lucida Grande’", "‘Lucida Sans Unicode’", "‘DejaVu Sans’", "‘Bitstream Vera Sans’", "‘Liberation Sans’", Verdana, "‘Verdana Ref’", sans-serif;
+  letter-spacing: normal;
+  font-size: 16px;
+  line-height: 1.4285714286;
+  padding: 18px 20px 5px;
+  border-bottom: 1px solid #f0f1f2;
+  position: relative;
+  z-index: 110;
+  box-shadow: 0 8px 10px -6px rgb(0 0 0 / 10%);
+}
+
+.filterBody {
+  max-height: calc(100vh - 13rem);
+  overflow-y: auto;
+}
+
+.filterBody::-webkit-scrollbar {
+  cursor: pointer;
+  width: 4px;
+}
+
+.filterBody::-webkit-scrollbar-thumb {
+  background: #18216d;
+  height: 20px;
+}
+
+.filterBody::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+
+.btnClearFilter {
+  appearance: none;
+  color: #545b63;
+  background: none;
+  border: none;
+  font-size: 12px;
+  margin-left: 8px;
+  padding: 4px 8px;
+  text-decoration: underline;
+  cursor: pointer;
 }

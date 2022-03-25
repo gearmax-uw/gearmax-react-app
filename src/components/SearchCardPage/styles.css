@@ -14,11 +14,22 @@
     text-decoration: none;
     text-align: center;
     padding: 8px 12px;
+<<<<<<< HEAD
     font-size: 12px;
     font-weight: 700;
     font-family: helvetica, arial, sans-serif;
     border-radius: 4px;
     border: 1px solid #bcbcbc;
+=======
+    margin-bottom: 13px;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: helvetica, arial, sans-serif;
+    border-radius: 4px;
+    /* border: 1px solid #bcbcbc; */
+    border: 1px solid #bdb3b3;
+>>>>>>> affa919cc171938aabe7a048fb7289479e1e1f94
     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.12);
     box-shadow: 0 1px 3px rgba(0,0,0,0.12);
     background-image: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(239,239,239,1) 60%,rgba(225,223,226,1) 100%);

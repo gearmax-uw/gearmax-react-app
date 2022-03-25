@@ -4,6 +4,8 @@ import { MenuOutlined } from "@ant-design/icons";
 
 export const HeaderSection = styled("header")`
   padding: 1rem 0.5rem;
+  box-shadow: rgba(42, 52, 61, 0.16) 0px 4px 8px 0px;
+  border-color: transparent;
 
   .ant-row-space-between {
     align-items: center;
@@ -19,6 +21,8 @@ export const NavLink = styled("div")`
   display: inline-block;
   text-align: center;
 `;
+
+
 
 export const CustomNavLink = styled("div")`
   width: 203px;
@@ -89,15 +93,16 @@ export const CustomLinkSmall = styled(Link)`
 `;
 
 export const Label = styled("span")`
-  font-weight: 500;
-  color: #404041;
+  font-weight: 900;
+  font-size: 2.0rem;
+  font-family: "Motiva Sans Light", sans-serif;
+  padding: 0.5rem 0;
+  color: #18216d;
   text-align: right;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
 `;
-
-
 
 export const Outline = styled(MenuOutlined)<any>`
   font-size: 22px;
@@ -110,11 +115,34 @@ export const Span = styled("span")`
   &:hover,
   &:active,
   &:focus {
-    color: rgb(255, 130, 92);
+    // color: gray;
     text-underline-position: under;
-    text-decoration: rgb(255, 130, 92) wavy underline;
+    // text-decoration: rgb(255, 130, 92) wavy underline;
+    // background: lightgray;
+    outline-width: 3px;
+  outline-style: dashed;
+  outline-offset: 10px;
+  outline-color: orange;
   }
 `;
+
+export const logoSpan = styled("span")`
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+
+  &:hover,
+  &:active,
+  &:focus {
+    // color: gray;
+    text-underline-position: under;
+    // text-decoration: rgb(255, 130, 92) wavy underline;
+    // background: lightgray;
+    outline-width: 3px;
+  outline-style: dashed;
+  outline-offset: 10px;
+  outline-color: orange;
+  }
+  `;
 
 
 export const CustomButton = styled("button")`
@@ -133,7 +161,7 @@ cursor: pointer;
   &:focus {
 
     text-underline-position: under;
-    text-decoration: white wavy underline;
+    // text-decoration: white wavy underline;
 
   }
 `;

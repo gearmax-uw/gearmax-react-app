@@ -1,0 +1,8 @@
+.image-container {
+    text-align: center;
+    display: flex;
+    Height: 75vh;
+    Width: 75vw; 
+    align-items: center;
+    justify-content: center;
+}
