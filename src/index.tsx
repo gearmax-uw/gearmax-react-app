@@ -9,21 +9,24 @@ import i18n from "./translation";
 import { fetchCars } from './action'
 
 declare global {
-  interface Window { 
+  interface Window {
     store: any;
     baseUrl: string;
+    flaskUrl: string;
     localBaseUrl: string;
     carsPerPage: Number;
   }
 }
 
 // window.localBaseUrl = "http://localhost:8080/car/list";
-window.baseUrl = "http://34.125.152.171:8080/car/list";
 // window.baseUrl = "http://localhost:8080/car/list";
+// window.flaskUrl = "http://localhost:5000/car/predict";
+window.baseUrl = "http://34.125.152.171:8080/car/list";
+window.flaskUrl = "http://34.125.152.171:5000/car/predict";
 window.carsPerPage = 20;
 
 // fetch data first
-store.dispatch(fetchCars(window.baseUrl+"?pageSize="+window.carsPerPage+"&pageIndex=0"));
+store.dispatch(fetchCars(window.baseUrl + "?pageSize=" + window.carsPerPage + "&pageIndex=0"));
 
 const App = () => (
   <BrowserRouter>
@@ -34,7 +37,6 @@ const App = () => (
 );
 
 // ReactDOM.render(<App />, document.getElementById("root"));
-
 ReactDOM.render(
   <Provider store={store}>
     <App />

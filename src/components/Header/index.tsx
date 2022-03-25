@@ -2,31 +2,71 @@ import { useState } from "react";
 import { Row, Col, Drawer } from "antd";
 import { withTranslation } from "react-i18next";
 import Container from "../../common/Container";
-import { SvgIcon } from "../../common/SvgIcon";
-import { Button } from "../../common/Button";
 import {
   HeaderSection,
   LogoContainer,
   Burger,
   NotHidden,
   Menu,
-  CustomNavLinkSmall,
-  logoSpan,
   CustomButton,
   CustomLinkSmall,
   Label,
   Outline,
   Span,
 } from "./styles";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
+import store from "../../store";
+import { fetchCars } from "../../action";
 
 const Header = ({ t }: any) => {
   const [visible, setVisibility] = useState(false);
+  const [value, setValue] = useState("")
+
+  const buildUrl = (url: string, searchInput: string) => {
+    var qp = "";
+    if (searchInput) {
+      qp += "search=" + searchInput;
+      url = url + "?" + qp;
+      if (store.getState().filterParam && store.getState().filterParam.page_size) {
+        url = url + "&pageSize=" + store.getState().filterParam.page_size;
+      } else {
+        url = url + "&pageSize=" + window.carsPerPage;
+      }
+      if (store.getState().filterParam && store.getState().filterParam.page_index) {
+        url = url + "&pageIndex=" + store.getState().filterParam.page_index;
+      } else {
+        url = url + "&pageIndex=0";
+      }
+    } else {
+      if (store.getState().filterParam && store.getState().filterParam.page_size) {
+        url = url + "?pageSize=" + store.getState().filterParam.page_size + "&pageIndex=0";
+      } else {
+        url = url + "?pageSize=" + window.carsPerPage + "&pageIndex=0";
+      }
+    }
+    if (store.getState().filterParam && store.getState().filterParam.sort) {
+      url = url + "&sort=" + store.getState().filterParam.sort;
+
+      if (store.getState().filterParam.sort_order) {
+        url = url + "&sortOrder=" + store.getState().filterParam.sort_order;
+      }
+    }
+    // console.log(url);
+    return url;
+  }
+
+  const requestSearch = (e: any) => {
+    e.preventDefault();
+
+    const input = value;
+    const searchInput = input.replace(/\s+/g, '+').trim();
+    // console.log(searchInput);
+    const fetchUrl = buildUrl(window.baseUrl, searchInput);
+    store.dispatch(fetchCars(fetchUrl));
+  }
 
   const showDrawer = () => {
     setVisibility(!visible);
@@ -47,7 +87,7 @@ const Header = ({ t }: any) => {
     return (
       <>
         <CustomLinkSmall to="/">
-            <CustomButton>
+          <CustomButton>
             <b>{t("Home")}</b>
           </CustomButton>
         </CustomLinkSmall>
@@ -59,7 +99,7 @@ const Header = ({ t }: any) => {
 
         <CustomLinkSmall to="/predict" >
           <Span>
-            {t("Add/Predict")}
+            {t("Predict")}
           </Span>
         </CustomLinkSmall>
       </>
@@ -95,6 +135,23 @@ const Header = ({ t }: any) => {
           <MenuItem />
         </Drawer>
       </Container>
+      &nbsp;
+      <Paper
+        component="form"
+        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 1, boxShadow: 1 }}
+      >
+        <InputBase
+          sx={{ ml: 1, flex: 1 }}
+          placeholder="Search by Keywords"
+          inputProps={{ 'aria-label': 'search by keywords' }}
+          onChange={event => {                                 //adding the onChange event
+            setValue(event.target.value);
+          }}
+        />
+        <IconButton type="submit" sx={{ p: '10px' }} aria-label="search" onClick={requestSearch}>
+          <SearchIcon />
+        </IconButton>
+      </Paper>
     </HeaderSection>
   );
 };

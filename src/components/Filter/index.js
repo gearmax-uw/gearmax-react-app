@@ -1,8 +1,13 @@
 import { useForm, Controller } from "react-hook-form";
 import "./styles.css";
-import Select from 'react-select'
 import { fetchCars, FILTER_SUBMIT } from "../../action";
 import store from "../../store";
+import ReactSelect from "react-select";
+import {
+  Input,
+  Row,
+  Col,
+} from "antd";
 
 const customStyles = {
   control: (provided, state) => ({
@@ -246,33 +251,57 @@ function buildUrl(url, data) {
     }
   }
 
-  store.dispatch({
-    type: FILTER_SUBMIT,
-    payload: {
-      "filterSubmitted": true
+  if (store.getState().filterParam && store.getState().filterParam.sort) {
+    url = url + "&sort=" + store.getState().filterParam.sort;
+
+    if (store.getState().filterParam.sort_order) {
+      url = url + "&sortOrder=" + store.getState().filterParam.sort_order;
     }
-  });
+  }
+
+  return url
+}
+
+function buildUrlForClearFilter(url) {
+  if (store.getState().filterParam && store.getState().filterParam.page_size) {
+    url = url + "?pageSize=" + store.getState().filterParam.page_size + "&pageIndex=0";
+  } else {
+    url = url + "?pageSize=" + window.carsPerPage + "&pageIndex=0";
+  }
+
+  if (store.getState().filterParam && store.getState().filterParam.sort) {
+    url = url + "&sort=" + store.getState().filterParam.sort;
+  }
 
   return url
 }
 
 const Filter = (props) => {
-  const { register, control, setValue, handleSubmit, formState: { errors } } = useForm();
+  const { register, control, setValue, reset, handleSubmit, formState: { errors } } = useForm(
+    {
+      defaultValues: {
+        make: { value: "", label: "" },
+        body: { value: "", label: "" },
+        fuel: { value: "", label: "" },
+        color: { value: "", label: "" },
+        transmission: { value: "", label: "" },
+        transmission_display: { value: "", label: "" },
+      }
+    });
 
   const onSubmit = data => {
+    // console.log(data);
     // build get/fetch url and save updated filter parameters in redux store
     var fetchUrl = buildUrl(window.baseUrl, data)
     // save fetched car data in redux store
     store.dispatch(fetchCars(fetchUrl));
 
-    // const requestOptions = {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     'Accept': 'application/json',
-    //     "Access-Control-Allow-Origin": "*",
-    //   }
-    // };    
+    store.dispatch({
+      type: FILTER_SUBMIT,
+      payload: {
+        "filterSubmitted": true
+      }
+    });
   };
   const handleChange_body = (change) => {
     setValue("body", change, {
@@ -306,110 +335,284 @@ const Filter = (props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label>Car Make</label>
-      <Controller
-        name="make"
-        control={control}
-        render={() => (
-          <Select
-            options={makeoption}
-            defaultValue={''}
-            onChange={handleChange_make}
-            styles={customStyles}
-          />
-        )}
-      />
+    <aside id="sidebar">
+      <div className="sideBarWrapper" data-testid="text">
+        <div className="filterHeader">
+          <div className="filterTitle">
+            Filter
+            <button type="button" data-testid="clear_button" className="btnClearFilter" onClick={() => {
+              reset({
+                make: { value: "", label: "" },
+                body: { value: "", label: "" },
+                fuel: { value: "", label: "" },
+                color: { value: "", label: "" },
+                transmission: { value: "", label: "" },
+                transmission_display: { value: "", label: "" },
+              });
 
-      <label>Body Type</label>
-      <Controller
-        name="body"
-        control={control}
-        render={() => (
-          <Select
-            options={bodyoption}
-            defaultValue={''}
-            onChange={handleChange_body}
-            styles={customStyles}
-          />
-        )}
-      />
+              store.dispatch({
+                type: "clear",
+              });
 
-      <label>Fuel Type</label>
-      <Controller
-        name="fuel"
-        control={control}
-        render={() => (
-          <Select
-            options={fueloption}
-            defaultValue={''}
-            onChange={handleChange_fuel}
-            styles={customStyles}
-          />
-        )}
-      />
+              const fetchUrl = buildUrlForClearFilter(window.baseUrl);
+              store.dispatch(fetchCars(fetchUrl));
+            }}>Clear Filter</button>
+          </div>
+        </div>
+        <div className="filterBody">
+          <div className='scrollHostContainer'>
+            <div className='scrollhost'>
+              <form data-testid="form" onSubmit={handleSubmit(onSubmit)}>
+                <label>Car Make</label>
 
-      <label>Year</label>
-      <input {...register("year_low")} placeholder="From" />
-      <input {...register("year_high")} placeholder="To" />
+                <Controller
+                  name="make"
+                  control={control}
+                  render={({ field }) => (
+                    <ReactSelect
+                      classNamePrefix='select'
+                      isClearable
+                      {...field}
+                      options={makeoption}
+                      onChange={handleChange_make}
+                      styles={customStyles}
+                    />
+                  )}
+                />
 
-      <label>Price</label>
-      <input {...register("price_low")} placeholder="From" />
-      <input {...register("price_high")} placeholder="To" />
+                <label>Body Type</label>
+                <Controller
+                  name="body"
+                  control={control}
+                  render={({ field }) => (
+                    <ReactSelect
+                      isClearable
+                      {...field}
+                      options={bodyoption}
+                      onChange={handleChange_body}
+                      styles={customStyles}
+                    />
+                  )}
+                />
 
-      <label> Mileage &#8804;</label>
-      <input {...register("mileage")} placeholder="Less than" />
+                <label>Fuel Type</label>
+                <Controller
+                  name="fuel"
+                  control={control}
+                  render={({ field }) => (
+                    <ReactSelect
+                      isClearable
+                      {...field}
+                      options={fueloption}
+                      onChange={handleChange_fuel}
+                      styles={customStyles}
+                    />
+                  )}
+                />
 
-      <label> Seating &#8804;</label>
-      <input {...register("seating")} placeholder="Less than" />
+                <label>Year</label>
+                <Input.Group>
+                  <Row gutter={12}>
+                    <Col span={12}>
+                      <Controller
+                        placeholder="year_low"
+                        control={control}
+                        name="year_low"
+                        render={({ field }) =>
+                          <Input
+                            {...register("year_low", {
+                              required: false,
+                              min: 1800,
+                              max: 2022,
+                            })}
+                            {...field}
+                            placeholder="From"
+                            size='large'
+                          />
+                        }
+                      />
+                    </Col>
+                    <Col span={12}>
+                      <Controller
+                        placeholder="year_high"
+                        control={control}
+                        name="year_high"
+                        render={({ field }) =>
+                          <Input
+                            {...register("year_high", {
+                              required: false,
+                              min: 1800,
+                              max: 2022,
+                            })}
+                            {...field}
+                            placeholder="To"
+                            size='large'
+                          />
+                        }
+                      />
+                    </Col>
+                  </Row>
+                </Input.Group>
+                <br />
 
-      <label>Exterior Color</label>
-      <Controller
-        name="color"
-        control={control}
-        render={() => (
-          <Select
-            options={coloroption}
-            defaultValue={''}
-            onChange={handleChange_color}
-            styles={customStyles}
-          />
-        )}
-      />
+                <label>Price</label>
+                <Input.Group>
+                  <Row gutter={12}>
+                    <Col span={12}>
+                      <Controller
+                        placeholder="price_low"
+                        control={control}
+                        name="price_low"
+                        render={({ field }) =>
+                          <Input
+                            {...register("price_low", {
+                              required: false,
+                              min: 0,
+                              max: 100000000,
+                            })}
+                            {...field}
+                            placeholder="From"
+                            size='large'
+                          />
+                        }
+                      />
+                    </Col>
+                    <Col span={12}>
+                      <Controller
+                        placeholder="price_high"
+                        control={control}
+                        name="price_high"
+                        render={({ field }) =>
+                          <Input
+                            {...register("price_high", {
+                              required: false,
+                              min: 0,
+                              max: 100000000,
+                            })}
+                            {...field}
+                            placeholder="To"
+                            size='large'
+                          />
+                        }
+                      />
+                    </Col>
+                  </Row>
+                </Input.Group>
+                <br />
 
-      <label>Transmission</label>
-      <Controller
-        name="transmission"
-        control={control}
-        render={() => (
-          <Select
-            options={transmission_option}
-            defaultValue={''}
-            onChange={handleChange_transmission}
-            styles={customStyles}
-          />
-        )}
-      />
+                <label> Mileage &#8804;</label>
+                <Controller
+                  placeholder="mileage"
+                  control={control}
+                  name="mileage"
+                  render={({ field }) =>
+                    <Input
+                      {...register("mileage", {
+                        required: false,
+                        min: 0,
+                        max: 1000000,
+                      })}
+                      {...field}
+                      placeholder="Less than"
+                      size='large'
+                    />
+                  }
+                />
+                <br />
+                <br />
 
-      <label>Transmission Display</label>
-      <Controller
-        name="transmission_display"
-        control={control}
-        render={() => (
-          <Select
-            options={transmission_display_option}
-            defaultValue={''}
-            onChange={handleChange_transmission_display}
-            styles={customStyles}
-          />
-        )}
-      />
+                <label> Seating &#8804;</label>
+                <Controller
+                  placeholder="seating"
+                  control={control}
+                  name="seating"
+                  render={({ field }) =>
+                    <Input
+                      {...register("seating", {
+                        required: false,
+                        min: 0,
+                        max: 100,
+                      })}
+                      {...field}
+                      placeholder="Less than"
+                      size='large'
+                    />
+                  }
+                />
+                <br />
+                <br />
 
-      <label>City</label>
-      <input {...register("city")} placeholder="City" />
+                <label>Exterior Color</label>
+                <Controller
+                  name="color"
+                  control={control}
+                  render={({ field }) => (
+                    <ReactSelect
+                      isClearable
+                      {...field}
+                      options={coloroption}
+                      onChange={handleChange_color}
+                      styles={customStyles}
+                    />
+                  )}
+                />
 
-      <input type="submit" />
-    </form>
+                <label>Transmission</label>
+                <Controller
+                  name="transmission"
+                  control={control}
+                  render={({ field }) => (
+                    <ReactSelect
+                      isClearable
+                      {...field}
+                      options={transmission_option}
+                      onChange={handleChange_transmission}
+                      styles={customStyles}
+                    />
+                  )}
+                />
+
+                <label>Transmission Display</label>
+                <Controller
+                  name="transmission_display"
+                  control={control}
+                  render={({ field }) => (
+                    <ReactSelect
+                      isClearable
+                      {...field}
+                      options={transmission_display_option}
+                      onChange={handleChange_transmission_display}
+                      styles={customStyles}
+                    />
+                  )}
+                />
+
+                <label>City</label>
+                <Controller
+                  placeholder="city"
+                  control={control}
+                  name="city"
+                  render={({ field }) =>
+                    <Input
+                      {...register("city")}
+                      {...field}
+                      placeholder="City"
+                      size='large'
+                    />
+                  }
+                />
+                <br />
+
+                <input type="submit" data-testid="submit_button" />
+              </form>
+            </div>
+            <div className='scroll-bar'>
+              <div className='scroll-thumb'></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
   );
 };
 

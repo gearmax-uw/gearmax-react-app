@@ -4,21 +4,40 @@ import { fetchCars } from '../../action';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { Button, CardActionArea, CardActions } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TablePagination from '@mui/material/TablePagination';
+import Divider from '@mui/material/Divider';
 import store from "../../store";
-import {createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import InputLabel from '@mui/material/InputLabel';
+import MuiMenuItem from "@material-ui/core/MenuItem";
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import IconButton from '@mui/material/IconButton';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import Box from '@mui/material/Box';
+import "./styles.css";
+import { withStyles } from "@material-ui/core/styles";
+import noResultImg from "../../imgs/noresult.png";
+import noPreviewImg from "../../imgs/noimage.jpg"
 
 import PopoutWindow from "../PopoutWindow"
+import { ButtonBase , CardActionArea} from '@mui/material';
 
+const MenuItem = withStyles({
+    root: {
+        justifyContent: "flex-end"
+    }
+})(MuiMenuItem);
 
 const theme = createTheme({
     typography: {
         subtitle1: {
             fontSize: 16,
-            fontWeight: 550
+            fontWeight: 400,
+            fontFamily: `"Lato", "Helvetica", "Arial", sans-serif`,
+            color: "#1773cf",
         },
         subtitle2: {
             fontSize: 14,
@@ -26,15 +45,16 @@ const theme = createTheme({
         },
         body1: {
             fontSize: 20,
-            fontWeight: 520,
+            fontWeight: 400,
+            color: "#545b63",
+            fontFamily: `"Lato", "Helvetica", "Arial", sans-serif`,
         },
         body2: {
-            fontSize: 15,
-            fontWeight: 500,
-        },
-        button: {
-            fontStyle: 'italic',
-        },
+            fontSize: 12,
+            fontWeight: 400,
+            color: '#2a343d',
+            fontFamily: `"Lato", "Helvetica", "Arial", sans-serif`,
+        }
     },
 });
 
@@ -46,19 +66,89 @@ const mapStateToProps = state => {
     };
 };
 
+class Mycard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            car: this.props.car,
+            openPopout: false
+        }
+        this.handleClosePop = this.handleClosePop.bind(this);
+        this.handleOpenPop = this.handleOpenPop.bind(this);    
+    }
+
+    handleClosePop = () => {
+        this.setState({
+            openPopout: false
+        });
+    }
+
+    handleOpenPop = () => {
+        this.setState({
+            openPopout: true
+        });
+    }
+
+    render(){
+        const car = this.props.car;
+        const convertedCarPrice = car.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return(
+            <Card sx={{ maxWidth: 500,
+                        }}>
+                <CardActionArea
+                style={{
+                    padding: "0px",
+                    background: "#ffffff" ,
+                }}>
+                            <ButtonBase
+                                onClick={this.handleOpenPop}
+                                style={{
+                                    width: "100%",
+                                    padding: "0px",
+                                    background: "#ffffff" ,
+                                }}
+                                >
+                                <CardMedia
+                                    component="img"
+                                    alt="image not displayed"
+                                    height="170"
+                                    image={car.mainPictureUrl}
+                                    
+                                />
+                            </ButtonBase>
+                    <PopoutWindow car={car} open={this.state.openPopout} handleClose={this.handleClosePop}></PopoutWindow>
+                </CardActionArea>
+                <CardContent>
+                    <Typography variant="subtitle1">
+                        <span className="make">{car.year} {car.makeName}</span>
+                        <span className="model">{car.modelName}</span>
+                    </Typography>
+                    <Typography variant="body1">
+                        <span className="priceAndMileage">${convertedCarPrice}  <span>&#8284;</span> {car.mileage} mi</span>
+                    </Typography>
+                    <Divider />
+                    <Typography variant="body2" sx={{ pt: 0.5 }}>
+                        {car.city}, {car.country}, {car.zip}
+                    </Typography>
+                </CardContent>
+            </Card>
+        )
+    }
+}
+
+
 class CarGrid extends Component {
     constructor(props) {
         super(props);
         this.state = {
             page: 0,
             rowsPerPage: window.carsPerPage,
-            openPopout: false
+            sort: "",
+            sortOrder: "asc",
         }
-        this.handleOpenPop = this.handleOpenPop.bind(this);
-        this.handleClosePop = this.handleClosePop.bind(this);
     }
 
-    buildUrl(url, currentPage, currentRowsPerPage) {
+    buildUrl(url, currentPage, currentRowsPerPage, sort, sortOrder) {
         var qp = "";
         if (this.props.filterParam.body) {
             qp += "bodyType=" + this.props.filterParam.body + "&";
@@ -92,17 +182,34 @@ class CarGrid extends Component {
         if (qp.length > 0) {
             qp = qp.substring(0, qp.length - 1);
             url = url + "?" + qp;
-            if (store.getState().filterParam && store.getState().filterParam.page_size) {
-                url = url + "&pageSize=" + store.getState().filterParam.page_size;
-            } else {
-                url = url + "&pageSize=" + window.carsPerPage;
-            }
-            if (store.getState().filterParam && store.getState().filterParam.page_index) {
-                url = url + "&pageIndex=" + store.getState().filterParam.page_index;
-            } else {
-                url = url + "&pageIndex=0";
-            }
             url = url + "&pageSize=" + currentRowsPerPage + "&pageIndex=" + currentPage;
+        } else {
+            url = url + "?pageSize=" + currentRowsPerPage + "&pageIndex=" + currentPage;
+        }
+        if (sort) {
+            url = url + "&sort=" + sort;
+            if (sortOrder) {
+                url = url + "&sortOrder=" + sortOrder;
+            } else {
+                if (store.getState().filterParam && store.getState().filterParam.sort_order) {
+                    url = url + "&sortOrder=" + this.props.filterParam.sort_order;
+                } else if (this.state.sortOrder) {
+                    url = url + "&sortOrder=" + this.state.sortOrder;
+                }
+            }
+        } else {
+            if (store.getState().filterParam && store.getState().filterParam.sort) {
+                url = url + "&sort=" + this.props.filterParam.sort;
+            }
+            if (sortOrder) {
+                url = url + "&sortOrder=" + sortOrder;
+            } else {
+                if (store.getState().filterParam && store.getState().filterParam.sort_order) {
+                    url = url + "&sortOrder=" + this.props.filterParam.sort_order;
+                } else if (this.state.sortOrder) {
+                    url = url + "&sortOrder=" + this.state.sortOrder;
+                }
+            }
         }
         return url;
     }
@@ -139,79 +246,127 @@ class CarGrid extends Component {
         store.dispatch(fetchCars(fetchUrl));
     };
 
-    handleClosePop = () => {
+    handleSortChange = (event) => {
         this.setState({
-            openPopout: false
-        })
+            sort: event.target.value,
+        });
+        this.state.sort = event.target.value;
+
+        store.dispatch({
+            type: "sort",
+            payload: this.state.sort
+        });
+
+        const fetchUrl = this.buildUrl(window.baseUrl, this.state.page, this.state.rowsPerPage, this.state.sort);
+        store.dispatch(fetchCars(fetchUrl));
     }
 
-    handleOpenPop = () => {
-        this.setState({
-            openPopout: true
-        })
+    swapSort = () => {
+        if (this.state.sort) {
+            if (this.state.sortOrder === "desc") {
+                this.setState({
+                    sortOrder: "asc",
+                });
+                this.state.sortOrder = "asc";
+            } else if (this.state.sortOrder === "asc") {
+                this.setState({
+                    sortOrder: "desc",
+                });
+                this.state.sortOrder = "desc";
+            }
+            store.dispatch({
+                type: "sort_order",
+                payload: this.state.sortOrder
+            });
+            const fetchUrl = this.buildUrl(window.baseUrl, this.state.page, this.state.rowsPerPage, this.state.sort, this.state.sortOrder);
+            store.dispatch(fetchCars(fetchUrl));
+        }
+    }
+
+    checkImage(url) {
+        var request = new XMLHttpRequest();
+        request.open("GET", url, true);
+        request.send();
+        request.onload = function () {
+            if (request.status == 200) //if(statusText == OK)
+            {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     render() {
         const cars = this.props.cars;
         const totalCars = this.props.totalCars;
-        const { page, rowsPerPage } = this.state;
-        // console.log(totalCars);
-
-        return <div className='card-grid-with-pagination'>
-            <div className='card-grid'>
-                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    {cars.map((car, index) => {
-                        car.makeName = car.makeName.replace('-', ' ');
-                        return (
-                            <Grid item xs={2} sm={4} md={3} key={index}>
-                                <Card sx={{ maxWidth: 500 }}>
-                                        <CardActions>
-                                            <Button onclick={this.handleOpenPop} fullWidth={true}>
-                                                <CardMedia
-                                                    component="img"
-                                                    alt="image not displayed"
-                                                    height="140"
-                                                    image={car.mainPictureUrl}
-                                                />
-                                            </Button>
-                                        </CardActions> 
-                                            <PopoutWindow car={car} 
-                                                                                open={this.state.openPopout} 
-                                                                                handleClose={this.handleClosePop}
-                                                                                handleOpenPop={this.handleOpenPop}>
-                                            </PopoutWindow>
-                                        
-                                        <CardContent>
-                                            <ThemeProvider theme={theme}>
-                                                <Typography variant="subtitle1">
-                                                    {car.year} {car.makeName}
-                                                </Typography>
-                                                <Typography variant="subtitle2">
-                                                    {car.modelName}
-                                                </Typography>
-                                                <Typography variant="body1">
-                                                    ${car.price}  <span>&#8284;</span> {car.mileage} mi
-                                                </Typography>
-                                            </ThemeProvider>
-                                        </CardContent>
-                                </Card>
+        const { page, rowsPerPage, sort, sortOrder } = this.state;
+        if (totalCars == 0) {
+            return (
+                <div className='image-container'>
+                    <img className='image-no-result' src={noResultImg} />
+                    <span className='no-result-text'>No Result Found</span>
+                </div>
+            );
+        }
+        return <div className='card-grid'>
+            <div className='card-grid-header'>
+                <Box sx={{ px: "2rem" }}>
+                    <Grid container justifyContent="flex-end">
+                        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                            <InputLabel id="demo-simple-select-standard-label">SORT BY</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-standard-label"
+                                id="demo-simple-select-standard"
+                                value={sort}
+                                onChange={this.handleSortChange}
+                                label="Sort"
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value='price'>Price</MenuItem>
+                                <MenuItem value='year'>Year</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <IconButton type="submit" sx={{ p: '1px' }} aria-label="swap" onClick={() => this.swapSort()}>
+                            <SwapVertIcon />
+                        </IconButton>
+                    </Grid>
+                </Box>
+            </div>
+            <div className='card-grid-with-pagination'>
+                <div className='card-grid'>
+                    <ThemeProvider theme={theme}>
+                        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                            {cars.map((car, index) => {
+                                if (!car.mainPictureUrl || this.checkImage(car.mainPictureUrl) === false) {
+                                    car.mainPictureUrl = noPreviewImg;
+                                }
+                                car.makeName = car.makeName.replace('-', ' ');
+                                const convertedCarPrice = car.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                return (
+                                    <Grid item xs={2} sm={4} md={3} key={index}>
+                                <Mycard car={car} convertedCarPrice={convertedCarPrice}></Mycard>
                             </Grid>
-                        );
-                    })}
-                </Grid>
-            </div>
-            &nbsp;
-            <div className='pagination'>
-                <TablePagination
-                    component="div"
-                    count={totalCars}
-                    page={page}
-                    onPageChange={this.handleChangePage}
-                    rowsPerPage={rowsPerPage}
-                    rowsPerPageOptions={[window.carsPerPage, window.carsPerPage * 2, window.carsPerPage * 3]}
-                    onRowsPerPageChange={this.handleChangeRowsPerPage}
-                />
-            </div>
+                                );
+                            })}
+                        </Grid>
+                    </ThemeProvider>
+                </div>
+                &nbsp;
+                <div className='pagination'>
+                    <TablePagination
+                        component="div"
+                        count={totalCars}
+                        page={page}
+                        onPageChange={this.handleChangePage}
+                        rowsPerPage={rowsPerPage}
+                        rowsPerPageOptions={[window.carsPerPage, window.carsPerPage * 2, window.carsPerPage * 3]}
+                        onRowsPerPageChange={this.handleChangeRowsPerPage}
+                    />
+                </div>
+            </div >
         </div>
     }
 }

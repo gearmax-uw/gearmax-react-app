@@ -1,0 +1,24 @@
+.headerWord {
+    float: left;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 31px;
+    color: #053361;
+}
+
+.headerButton {
+    float: right;
+}
+
+.headerButtonStyle {
+    padding:0px;
+    font-size: 15px;
+    height: 30px;
+    width: 30px;
+}
+
+.SubHeaderSpec {
+    color: #2a343d;
+    font-weight: 700;
+    font-size: 20px;
+}

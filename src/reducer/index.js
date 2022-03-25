@@ -16,7 +16,7 @@ function filterParam(state = {}, action) {
         case "fuel":
             return {
                 ...state,
-                body: action.fuel
+                fuel: action.fuel
             };
         case "city":
             return {
@@ -78,12 +78,43 @@ function filterParam(state = {}, action) {
                 ...state,
                 page_index: action.payload
             }
+        case "sort":
+            return {
+                ...state,
+                sort: action.payload
+            }
+        case "sort_order":
+            return {
+                ...state,
+                sort_order: action.payload
+            }
+        case "clear":
+            return {
+                ...state,
+                mileage: "",
+                body: "",
+                fuel: "",
+                city: "",
+                color: "",
+                make: "",
+                price_high: "",
+                price_low: "",
+                seating: "",
+                transmission: "",
+                transmission_display: "",
+                year_high: "",
+                year_low: ""
+            }
         default:
             return state;
     }
 }
 
-function metaData(state = {}, action) {
+const initMetaData = {
+    totalElements: 0,
+    filterSubmitted: false
+}
+function metaData(state = initMetaData, action) {
     switch (action.type) {
         case TOTAL_ELEMENTS_UPDATE:
             return {
