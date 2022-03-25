@@ -22,6 +22,9 @@ import { withStyles } from "@material-ui/core/styles";
 import noResultImg from "../../imgs/noresult.png";
 import noPreviewImg from "../../imgs/noimage.jpg"
 
+import PopoutWindow from "../PopoutWindow"
+import { ButtonBase , CardActionArea} from '@mui/material';
+
 const MenuItem = withStyles({
     root: {
         justifyContent: "flex-end"
@@ -62,6 +65,77 @@ const mapStateToProps = state => {
         filterParam: state.filterParam
     };
 };
+
+class Mycard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            car: this.props.car,
+            openPopout: false
+        }
+        this.handleClosePop = this.handleClosePop.bind(this);
+        this.handleOpenPop = this.handleOpenPop.bind(this);    
+    }
+
+    handleClosePop = () => {
+        this.setState({
+            openPopout: false
+        });
+    }
+
+    handleOpenPop = () => {
+        this.setState({
+            openPopout: true
+        });
+    }
+
+    render(){
+        const car = this.props.car;
+        const convertedCarPrice = this.props.convertedCarPrice;
+        return(
+            <Card sx={{ maxWidth: 500,
+                        }}>
+                <CardActionArea
+                style={{
+                    padding: "0px",
+                    background: "#ffffff" ,
+                }}>
+                            <ButtonBase
+                                onClick={this.handleOpenPop}
+                                style={{
+                                    width: "100%",
+                                    padding: "0px",
+                                    background: "#ffffff" ,
+                                }}
+                                >
+                                <CardMedia
+                                    component="img"
+                                    alt="image not displayed"
+                                    height="170"
+                                    image={car.mainPictureUrl}
+                                    
+                                />
+                            </ButtonBase>
+                    <PopoutWindow car={car} open={this.state.openPopout} handleClose={this.handleClosePop}></PopoutWindow>
+                </CardActionArea>
+                <CardContent>
+                    <Typography variant="subtitle1">
+                        <span className="make">{car.year} {car.makeName}</span>
+                        <span className="model">{car.modelName}</span>
+                    </Typography>
+                    <Typography variant="body1">
+                        <span className="priceAndMileage">${convertedCarPrice}  <span>&#8284;</span> {car.mileage} mi</span>
+                    </Typography>
+                    <Divider />
+                    <Typography variant="body2" sx={{ pt: 0.5 }}>
+                        {car.city}, {car.country}, {car.zip}
+                    </Typography>
+                </CardContent>
+            </Card>
+        )
+    }
+}
+
 
 class CarGrid extends Component {
     constructor(props) {
@@ -273,28 +347,8 @@ class CarGrid extends Component {
                                 const convertedCarPrice = car.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                                 return (
                                     <Grid item xs={2} sm={4} md={3} key={index}>
-                                        <Card sx={{ maxWidth: 500 }}>
-                                            <CardMedia
-                                                component="img"
-                                                alt="No Image"
-                                                height="140"
-                                                image={car.mainPictureUrl}
-                                            />
-                                            <CardContent>
-                                                <Typography variant="subtitle1">
-                                                    <span className="make">{car.year} {car.makeName}</span>
-                                                    <span className="model">{car.modelName}</span>
-                                                </Typography>
-                                                <Typography variant="body1">
-                                                    <span className="priceAndMileage">${convertedCarPrice}  <span>&#8284;</span> {car.mileage} mi</span>
-                                                </Typography>
-                                                <Divider />
-                                                <Typography variant="body2" sx={{ pt: 0.5 }}>
-                                                    {car.city}, {car.country}, {car.zip}
-                                                </Typography>
-                                            </CardContent>
-                                        </Card>
-                                    </Grid>
+                                <Mycard car={car} convertedCarPrice={convertedCarPrice}></Mycard>
+                            </Grid>
                                 );
                             })}
                         </Grid>
