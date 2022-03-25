@@ -116,16 +116,10 @@ class PopoutWindow extends Component {
     constructor(props){
         super(props);
         this.state = {
-            handleClose: this.props.handleClose,
-            open: this.props.open
+            handleClose: props.handleClosePop,
+            handleOpen:props.handleOpenPop, 
+            open: props.open
         };
-    };
-
-
-    handleClose = () => {
-        this.setState({open: false
-        });
-        this.props.handleClose(false);
     };
 
     render(){
@@ -133,7 +127,7 @@ class PopoutWindow extends Component {
         return (
             <div className='Dialog'>
                 <Dialog
-                    open={this.state.open}
+                    open={this.props.open}
                     onClose={this.props.handleClose}
                     scroll='paper'
                     aria-labelledby="scroll-dialog-title"
@@ -170,13 +164,8 @@ class PopoutWindow extends Component {
                                         </Grid>
                                     </Grid>
                                  </Box>}
-      
-
-
                             </DialogContentText>    
                         </DialogContent>
-
-
                 </Dialog>
 
             </div>

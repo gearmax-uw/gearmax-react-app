@@ -55,7 +55,7 @@ class CarGrid extends Component {
             openPopout: false
         }
         this.handleOpenPop = this.handleOpenPop.bind(this);
-        this.handlePopoutWindow = this.handlePopoutWindow.bind(this);
+        this.handleClosePop = this.handleClosePop.bind(this);
     }
 
     buildUrl(url, currentPage, currentRowsPerPage) {
@@ -139,9 +139,9 @@ class CarGrid extends Component {
         store.dispatch(fetchCars(fetchUrl));
     };
 
-    handlePopoutWindow = (event) => {
+    handleClosePop = () => {
         this.setState({
-            openPopout: event.open
+            openPopout: false
         })
     }
 
@@ -174,8 +174,13 @@ class CarGrid extends Component {
                                                     image={car.mainPictureUrl}
                                                 />
                                             </Button>
-                                            <PopoutWindow car={car} open={/*this.state.openPopout*/true} handleClose={this.handlePopoutWindow}></PopoutWindow>
-                                         </CardActions>
+                                        </CardActions> 
+                                            <PopoutWindow car={car} 
+                                                                                open={this.state.openPopout} 
+                                                                                handleClose={this.handleClosePop}
+                                                                                handleOpenPop={this.handleOpenPop}>
+                                            </PopoutWindow>
+                                        
                                         <CardContent>
                                             <ThemeProvider theme={theme}>
                                                 <Typography variant="subtitle1">
